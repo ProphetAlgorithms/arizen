@@ -1,7 +1,7 @@
 {
-  "name": "Arizen",
-  "version": "1.1.9",
-  "description": "Arizen is light API wallet for ZenCash with localy stored and encrypted files.",
+  "name": "ZeroArizen",
+  "version": "1.1.9-1",
+  "description": "Zero Arizen is light API wallet for Zero with localy stored and encrypted files.",
   "main": "app/main.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
@@ -12,20 +12,20 @@
     "publish": "publish",
     "release": "npm run dist && npm run publish"
   },
-  "homepage": "https://github.com/ZencashOfficial/arizen",
+  "homepage": "https://github.com/ProphetAlgorithms/zero-arizen",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zencashofficial/arizen.git"
+    "url": "git+https://github.com/ProphetAlgorithms/zero-arizen.git"
   },
   "bugs": {
-    "url": "https://github.com/zencashofficial/arizen/issues"
+    "url": "https://github.com/ProphetAlgorithms/zero-arizen/issues"
   },
   "updater": {
-    "url": "https://raw.githubusercontent.com/ZencashOfficial/arizen/master/updates.json"
+    "url": "https://raw.githubusercontent.com/ProphetAlgorithms/zero-arizen/master/updates.json"
   },
   "keywords": [
-    "zen",
-    "zencash",
+    "zer",
+    "zero",
     "equihash",
     "wallet",
     "windows",
@@ -67,7 +67,7 @@
     "node": ">=6.0"
   },
   "build": {
-    "appId": "io.zensystem.arizen",
+    "appId": "io.zersystem.zeroarizen",
     "mac": {
       "category": "public.app-category.finance",
       "type": "distribution"
@@ -129,7 +129,7 @@
     "ping": "^0.2.2",
     "qrcode": "^1.2.0",
     "sql.js": "^0.5.0",
-    "zencashjs": "^1.1.9-a"
+    "zerojs": "ProphetAlgorithms/zerojs"
   },
   "devDependencies": {
     "ajv": "^6.5.0",
