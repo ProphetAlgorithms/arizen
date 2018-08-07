@@ -79,7 +79,7 @@ const defaultSettings = {
     apiUrls: [
         "https://zeroapi.cryptonode.cloud/"
     ],
-    secureNodeFQDN: "",
+    secureNodeFQDN: "127.0.0.1",
     secureNodePort: 23800,
     domainFronting: false,
     domainFrontingUrl: "",
