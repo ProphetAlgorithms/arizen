@@ -958,6 +958,7 @@ function saveInternalInfo(internalInfo) {
 }
 
 function setSettings(newSettings) {
+    newSettings.secureNodeFQDN = settings.secureNodeFQDN;
     newSettings.secureNodeUsername = settings.secureNodeUsername;
     newSettings.secureNodePassword = settings.secureNodePassword;
     settings = newSettings;
