@@ -3,7 +3,7 @@
   "languageValue": "jp",
   "langFileVersion": "1",
   "login": {
-    "label": "Arizen: ログイン",
+    "label": "Zero Arizen: ログイン",
     "username": "ユーザー名",
     "password": "パスワード",
     "loginButton": "ログイン",
@@ -20,7 +20,7 @@
     "no": "いいえ"
   },
   "createWallet": {
-    "label": "Arizen: ウォレット作成",
+    "label": "Zero Arizen: ウォレット作成",
     "username": "ユーザー名",
     "password": "パスワード",
     "passwordAgain": "パスワード（確認）",
@@ -68,7 +68,7 @@
     "balance": "残高",
     "totalBalance": "合計残高",
     "lastUpdate": "最終更新",
-    "showExplorer": "ZENエクスプローラで表示",
+    "showExplorer": "ZERエクスプローラで表示",
     "listOfAddresses": "アドレス一覧",
     "showBatchWithdrawDialog": "まとめて送付",
     "notLoggedIn": "ログインしていません",
@@ -109,23 +109,23 @@
         "insufficientNextSource": "2番目またはそれ以降の送付元に十分な資金がありません (「送付可能最低額」以上が必要です)",
         "numberOfKeys": "秘密鍵の数とアドレスの数が一致していません",
         "sumLowerThanFee": "送付元アドレス全ての合計残高が送付額を下回っています",
-        "zenApi": "Zen APIが設定されていません",
+        "zenApi": "Zer APIが設定されていません",
         "unknownAddress": "送付元アドレスがウォレットに登録されていません",
         "insufficientFundsSourceAddr": "送付元アドレスに十分な資金がありません",
         "emptyToAddr": "送付先アドレスが入力されていません",
         "zeroAmount": "送付額は 0 より大きくなければなりません",
         "insufficientFunds": "送付元アドレスに十分な資金がありません",
         "fromAddressBadLength": "送付元アドレスの長さが不適切です",
-        "fromAddressBadPrefix": "送付元アドレスは 'zn' で始まる必要があります",
+        "fromAddressBadPrefix": "送付元アドレスは 't1' で始まる必要があります",
         "toAddressBadLength": "送付先アドレスの長さが不適切です",
-        "toAddressBadPrefix": "送付先アドレスは 'zn' で始まる必要があります",
+        "toAddressBadPrefix": "送付先アドレスは 't1' で始まる必要があります",
         "amounNotNumber": "送付額欄には数字を入力する必要があります",
         "amountIsZero": "送付額は 0 より大きくなければなりません",
         "feeNotNumber": "手数料欄には数字を入力する必要があります",
         "feeIsNegative": "手数料は 0 以上である必要があります",
         "error": "エラー",
         "success": "トランザクションは正常に送信されました",
-        "isCoinbaseUTXO": "このアドレスには、新たにマイニングされたコイン (支払いが行われていないコインベーストランザクションアウトプット; コインベース UTXO) が含まれています。このコインを使用するためには、シールドした上で再びシールドを解除する必要があります。まず、本アドレスの秘密鍵を Swing のようなフルノードウォレットにインポートしてください。次に、本アドレスから、一旦対象となるコインを全て Z アドレスに送付し、そこから再び本アドレスに送付し直してください。これにより Arizen ウォレットからも、これらのコインを支払うことができるようになります。",
+        "isCoinbaseUTXO": "このアドレスには、新たにマイニングされたコイン (支払いが行われていないコインベーストランザクションアウトプット; コインベース UTXO) が含まれています。このコインを使用するためには、シールドした上で再びシールドを解除する必要があります。まず、本アドレスの秘密鍵を Swing のようなフルノードウォレットにインポートしてください。次に、本アドレスから、一旦対象となるコインを全て Z アドレスに送付し、そこから再び本アドレスに送付し直してください。これにより Zero Arizen ウォレットからも、これらのコインを支払うことができるようになります。",
         "tooManyUTXOs": "Your address consists of too many UTXOs, it is not possible to send this transaction via API!",
         "noSourceAddress": "No source address was selected!"
       }
@@ -153,7 +153,7 @@
       "createButton": "作成"
     },
     "about": {
-      "label": "Arizen について",
+      "label": "Zero Arizen について",
       "homepage": "ホームページ",
       "version": "バージョン",
       "license": "ライセンス",
@@ -164,7 +164,7 @@
       "limit": "トランザクション数限度",
       "items": "トランザクション",
       "language": "言語",
-      "explorerUrl": "ZEN エクスプローラーの URL",
+      "explorerUrl": "ZER エクスプローラーの URL",
       "apiUrl": "API の URL",
       "fiat": "フィアット",
       "save": "保存",
@@ -176,9 +176,9 @@
       "sshUsername": "SSH ユーザー名",
       "sshPassword": "SSH パスワード",
       "sshPort": "SSH ポート",
-      "secureNodePort": "セキュアノードポート (zen.conf を参照してください)",
-      "secureNodeUsername": "セキュアノードユーザー名 (zen.conf を参照してください)",
-      "secureNodePassword": "セキュアノードパスワード (zen.conf を参照してください)",
+      "secureNodePort": "セキュアノードポート (zero.conf を参照してください)",
+      "secureNodeUsername": "セキュアノードユーザー名 (zero.conf を参照してください)",
+      "secureNodePassword": "セキュアノードパスワード (zero.conf を参照してください)",
       "readyTimeout": "準備時間タイムアウト (デフォルト: 10000)",
       "forwardTimeout": "フォワードタイムアウト (デフォルト: 10000)",
       "domainFrontingUrl": "ドメインフロンティング公開ベース URL",
@@ -191,8 +191,8 @@
       "label": "ペーパーウォレット",
       "generateNewWallet": "新規ウォレット作成",
       "name": "名前 (任意)",
-      "addWalletToArizen": "このウォレットを Arizen に追加",
-      "zenCashWalletLabel": "ZenCash ウォレット",
+      "addWalletToArizen": "このウォレットを Zero Arizen に追加",
+      "zenCashWalletLabel": "Zero ウォレット",
       "tAddrLabel": "公開鍵: T アドレス",
       "privateKeyLabel": "秘密鍵",
       "namePrint": "名前",
@@ -262,19 +262,19 @@
     "helpSubmenu": {
       "arizenManual": "ユーザーマニュアル",
       "support": "サポート",
-      "zencash": "ZenCash"
+      "zencash": "Zero"
     },
     "changeWalletPassword": "ウォレットのパスワードを変更"
   },
   "warmingMessages": {
     "userWarningImportFileWithPKs": "新たなアドレスおよび秘密鍵をインポートしようとしています。これ以前に作成されたバックアップファイルには、新たに作成されたアドレスおよび秘密鍵は存在しません。よって、新たにバックアップファイルを作成する必要があります。これらの内容に関してご理解いただいた場合のみ、「実行」をクリックしてください。詳細に関しては、ヘルプメニューを参照してください。",
-    "userWarningExportWalletUnencrypted": "暗号化されていない、テキスト形式のウォレット (秘密鍵) をエクスポートしようとしています。エクスポートされたファイルが悪意のある第3者の手に渡った場合、ウォレット内の ZEN は盗まれたも同然です。したがって、このファイルは安全な場所に保管してください。これらの内容に関してご理解いただいた場合のみ、「実行」をクリックしてください。詳細に関しては、ヘルプメニューを参照してください。",
-    "userWarningExportWalletEncrypted": "暗号化されたウォレット (秘密鍵) をエクスポートしようとしています。ウォレット (秘密鍵) にアクセスするためには、ユーザー名およびパスワードが必要となります。いずれかが不明となった場合、ウォレットにより管理された ZEN にアクセスすることができなくなってしまいます。これらの内容に関してご理解いただいた場合のみ、「実行」をクリックしてください。詳細に関しては、ヘルプメニューを参照してください。",
+    "userWarningExportWalletUnencrypted": "暗号化されていない、テキスト形式のウォレット (秘密鍵) をエクスポートしようとしています。エクスポートされたファイルが悪意のある第3者の手に渡った場合、ウォレット内の ZER は盗まれたも同然です。したがって、このファイルは安全な場所に保管してください。これらの内容に関してご理解いただいた場合のみ、「実行」をクリックしてください。詳細に関しては、ヘルプメニューを参照してください。",
+    "userWarningExportWalletEncrypted": "暗号化されたウォレット (秘密鍵) をエクスポートしようとしています。ウォレット (秘密鍵) にアクセスするためには、ユーザー名およびパスワードが必要となります。いずれかが不明となった場合、ウォレットにより管理された ZER にアクセスすることができなくなってしまいます。これらの内容に関してご理解いただいた場合のみ、「実行」をクリックしてください。詳細に関しては、ヘルプメニューを参照してください。",
     "userWarningImportPK": "アドレスおよびこれに対応する秘密鍵をインポートしようとしています。これ以前に作成されたバックアップファイルには、新たにインポートされたアドレスおよび秘密鍵は存在しません。よって、新たにバックアップファイルを作成する必要があります。これらの内容に関してご理解いただいた場合のみ、「実行」をクリックしてください。詳細に関しては、ヘルプメニューを参照してください。",
     "userWarningCreateNewAddress": "アドレスおよびこれに対応する秘密鍵を作成しようとしています。これ以前に作成されたバックアップファイルには、新たに作成されたアドレスおよび秘密鍵は存在しません。よって、新たにバックアップファイルを作成する必要があります。これらの内容に関してご理解いただいた場合のみ、「実行」をクリックしてください。詳細に関しては、ヘルプメニューを参照してください。",
     "userWarningIUnderstand": "実行",
     "cancel": "キャンセル",
-    "userWarningImportPkUserZendRescan": "インポートした Z アドレスにより管理された残高は、ブロックチェーン再スキャン後に表示されます。セキュアノードコンソール (linux) から、'zen-cli stop && sleep 8 && zend -rescan' を実行してください。"
+    "userWarningImportPkUserZendRescan": "インポートした Z アドレスにより管理された残高は、ブロックチェーン再スキャン後に表示されます。セキュアノードコンソール (linux) から、'zcash-cli stop && sleep 8 && zcashd -rescan' を実行してください。"
   },
   "common": {
     "selectAll": "全て選択",
