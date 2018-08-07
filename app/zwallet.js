@@ -890,7 +890,7 @@ function showBatchSplitDialog() {
         const bsSettings = deepClone(settings.batchSplit) || {
             fromAddr: "",
             toAddrs: [],
-            splitToAmounts: 42,
+            splitToAmounts: 0,
             txFee: 0.0001,
         };
 
