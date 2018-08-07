@@ -335,7 +335,7 @@ function toggleLedHTML(){
 
     if (properlyConfigRemoteNode() && !wrapperExists){
         document.getElementById("snStatusFrame").innerHTML = "";
-        document.getElementById("snStatusFrame").innerHTML = "<span id=snStatusWraper class=snStatusWraper><span id=snStatusSeperator> / </span><span>Server: <span id=dotSNstatus class=dotSNstatus></span></span> <span>zend: <span id=dotSNstatusRPC class=dotSNstatusRPC></span></span></span>";
+        document.getElementById("snStatusFrame").innerHTML = "<span id=snStatusWraper class=snStatusWraper><span id=snStatusSeperator> / </span><span>Server: <span id=dotSNstatus class=dotSNstatus></span></span> <span>zcashd: <span id=dotSNstatusRPC class=dotSNstatusRPC></span></span></span>";
     }
 
     if (!properlyConfigRemoteNode() && wrapperExists){
@@ -405,16 +405,16 @@ function showSettingsDialog() {
         const inputSecureNodeUsername = dialog.querySelector(".settingsSecureNodeUsername");
         const inputSecureNodePassword = dialog.querySelector(".settingsSecureNodePassword");
 
-        const inputSshPassphrase = dialog.querySelector(".settingsSshPassphrase");
-        const inputSshPrivateKey = dialog.querySelector(".settingsSshPrivateKey");
-        const inputSshUsername = dialog.querySelector(".settingsSshUsername");
-        const inputSshPassword = dialog.querySelector(".settingsSshPassword");
-        const inputSshPort = dialog.querySelector(".settingsSshPort");
+        //const inputSshPassphrase = dialog.querySelector(".settingsSshPassphrase");
+        //const inputSshPrivateKey = dialog.querySelector(".settingsSshPrivateKey");
+        //const inputSshUsername = dialog.querySelector(".settingsSshUsername");
+        //const inputSshPassword = dialog.querySelector(".settingsSshPassword");
+        //const inputSshPort = dialog.querySelector(".settingsSshPort");
         const inputReadyTimeout = dialog.querySelector(".settingsReadyTimeout");
         const inputForwardTimeout = dialog.querySelector(".settingsForwardTimeout");
-        const inputDomainFrontingEnable = dialog.querySelector(".enableDomainFronting");
-        const inputDomainFrontingUrl = dialog.querySelector(".settingDomainFrontingUrl");
-        const inputDomainFrontingHost = dialog.querySelector(".settingDomainFrontingHost");
+        //const inputDomainFrontingEnable = dialog.querySelector(".enableDomainFronting");
+        //const inputDomainFrontingUrl = dialog.querySelector(".settingDomainFrontingUrl");
+        //const inputDomainFrontingHost = dialog.querySelector(".settingDomainFrontingHost");
         const inputAutoLogOffEnable = dialog.querySelector(".settingAutoLogOffEnable");
         const inputAutoLogOffTimeout = dialog.querySelector(".settingAutoLogOffTimeout");
 
@@ -424,20 +424,20 @@ function showSettingsDialog() {
         inputApiUrls.value = settings.apiUrls.join("\n");
         inputFiatCurrency.value = settings.fiatCurrency;
         inputNotifications.checked = settings.notifications;
-        inputDomainFrontingEnable.checked = settings.domainFronting || false;
-        inputDomainFrontingUrl.value = settings.domainFrontingUrl || "";
-        inputDomainFrontingHost.value = settings.domainFrontingHost || "";
+        //inputDomainFrontingEnable.checked = settings.domainFronting || false;
+        //inputDomainFrontingUrl.value = settings.domainFrontingUrl || "";
+        //inputDomainFrontingHost.value = settings.domainFrontingHost || "";
         inputFiatCurrency.value = settings.fiatCurrency || "USD";
 
         inputSecureNodeFQDN.value = settings.secureNodeFQDN;
         inputSecureNodePort.value = settings.secureNodePort || 23800;
         inputSecureNodeUsername.value = settings.secureNodeUsername || "";
         inputSecureNodePassword.value = settings.secureNodePassword || "";
-        inputSshPassphrase.value = settings.sshPassphrase || "";
-        inputSshPrivateKey.value = settings.sshPrivateKey || "";
-        inputSshUsername.value = settings.sshUsername || "";
-        inputSshPassword.value = settings.sshPassword || "";
-        inputSshPort.value = settings.sshPort || 22;
+        //inputSshPassphrase.value = settings.sshPassphrase || "";
+        //inputSshPrivateKey.value = settings.sshPrivateKey || "";
+        //inputSshUsername.value = settings.sshUsername || "";
+        //inputSshPassword.value = settings.sshPassword || "";
+        //inputSshPort.value = settings.sshPort || 22;
         inputReadyTimeout.value = settings.readyTimeout || 10000;
         inputForwardTimeout.value = settings.forwardTimeout || 10000;
 
@@ -467,17 +467,17 @@ function showSettingsDialog() {
                 secureNodePort: inputSecureNodePort.value,
                 secureNodeUsername: inputSecureNodeUsername.value,
                 secureNodePassword: inputSecureNodePassword.value,
-                sshPassphrase: inputSshPassphrase.value,
-                sshPrivateKey: inputSshPrivateKey.value,
-                sshUsername: inputSshUsername.value,
-                sshPassword: inputSshPassword.value,
-                sshPort: inputSshPort.value,
+                //sshPassphrase: inputSshPassphrase.value,
+                //sshPrivateKey: inputSshPrivateKey.value,
+                //sshUsername: inputSshUsername.value,
+                //sshPassword: inputSshPassword.value,
+                //sshPort: inputSshPort.value,
                 readyTimeout: inputReadyTimeout.value,
                 forwardTimeout: inputForwardTimeout.value,
 
-                domainFronting: inputDomainFrontingEnable.checked,
-                domainFrontingUrl: inputDomainFrontingUrl.value,
-                domainFrontingHost: inputDomainFrontingHost.value,
+                //domainFronting: inputDomainFrontingEnable.checked,
+                //domainFrontingUrl: inputDomainFrontingUrl.value,
+                //domainFrontingHost: inputDomainFrontingHost.value,
                 autoLogOffEnable: inputAutoLogOffEnable.checked ? 1 : 0,
                 autoLogOffTimeout: inputAutoLogOffTimeout.value < 60 ? 60 : inputAutoLogOffTimeout.value
             };
