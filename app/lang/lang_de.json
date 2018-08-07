@@ -3,14 +3,13 @@
   "languageValue": "de",
   "langFileVersion": "1",
   "login": {
-    "label": "Arizen: Anmelden",
+    "label": "Zero Arizen: Anmelden",
     "username": "Benutzername",
     "password": "Passwort",
     "loginButton": "Anmelden",
     "createWalletLink": "Wallet erstellen",
     "warningWrongUsernameOrPassword": "<strong>Benutzername</strong> oder <strong>Passwort</strong> falsch",
-    "dataImportFailed1": "Data import failed, possible reason is wrong credentials or file is corrupted.",
-    "dataImportFailed2": "Datenimport fehlgeschlagen, Ihre Anmeldedaten sind möglicherweise falsch",
+    "dataImportFailed": "Datenimport fehlgeschlagen, Ihre Anmeldedaten sind möglicherweise falsch",
     "fileReplace": "Wollen Sie die Datei überschreiben?",
     "walletReplace": "Wallet überschreiben?",
     "walletReplaceMsg": "Dies wird Ihre aktuelle Wallet überschreiben. Sind Sie sicher?",
@@ -20,7 +19,7 @@
     "no": "Nein"
   },
   "createWallet": {
-    "label": "Arizen: Wallet erstellen",
+    "label": "Zero Arizen: Wallet erstellen",
     "username": "Benutzername",
     "password": "Passwort",
     "passwordAgain": "Passwort wiederholen",
@@ -41,8 +40,7 @@
     "warningPasswordAgain": "Ihr Passwort muss die folgenden Anforderungen erfüllen:",
     "warningPasswordAgainIdentical": "<strong>Identisch</strong>",
     "errorCreationFailed": "Erstellen der Wallet fehlgeschlagen",
-    "errorFailedResponse": "Antwort fehlgeschlagen",
-    "haveBackup": "Do you have previous backup?"
+    "errorFailedResponse": "Antwort fehlgeschlagen"
   },
   "notification": {
     "settingsUpdated": "Einstellungen aktualisiert",
@@ -68,7 +66,7 @@
     "balance": "Guthaben",
     "totalBalance": "Gesamtes Guthaben",
     "lastUpdate": "Zuletzt aktualisiert",
-    "showExplorer": "Im ZEN Explorer anzeigen",
+    "showExplorer": "Im ZER Explorer anzeigen",
     "listOfAddresses": "Adressliste",
     "showBatchWithdrawDialog": "Gruppenauszahlung",
     "notLoggedIn": "Nicht angemeldet",
@@ -87,7 +85,7 @@
     },
     "tabDeposit": {
       "label": "Einzahlen",
-      "help": "Um Zen zu empfangen, klicken Sie auf die grüne Schaltfläche neben der gewünschten Adresse.",
+      "help": "Um Zer zu empfangen, klicken Sie auf die grüne Schaltfläche neben der gewünschten Adresse.",
       "saveQrcode": "QR-Code speichern",
       "messages": {
         "emptyToAddr": "Die Empfängeradresse ist leer",
@@ -97,7 +95,7 @@
     },
     "tabWithdraw": {
       "label": "Auszahlen",
-      "help": "Um Zen zu senden, klicken Sie auf die rote Schaltfläche neben der gewünschten Adresse.",
+      "help": "Um Zer zu senden, klicken Sie auf die rote Schaltfläche neben der gewünschten Adresse.",
       "availableBalance": "Verfügbares Guthaben",
       "fee": "Transaktionsgebühr",
       "txStatus": "Transaktionsstatus",
@@ -109,25 +107,24 @@
         "insufficientNextSource": "Nicht genügend Guthaben auf der zweiten oder nächsten Quelle (Minimum: Grenzwert)!",
         "numberOfKeys": "# private Schlüssel und # Adressen stimmen nicht überein!",
         "sumLowerThanFee": "Ihr Gesamtguthaben auf allen Adressen ist niedriger als die Gebühr!",
-        "zenApi": "Zen API ist in den Einstellungen nicht eingestellt!",
+        "zenApi": "Zer API ist in den Einstellungen nicht eingestellt!",
         "unknownAddress": "Die Quelladresse gehört nicht zu dieser Wallet!",
         "insufficientFundsSourceAddr": "Nicht genügend Guthaben auf der Absenderadresse",
         "emptyToAddr": "Die Empfängeradresse ist leer",
         "zeroAmount": "Der Betrag ist nicht positiv",
         "insufficientFunds": "Nicht genügend Guthaben auf der Empfängeradresse",
         "fromAddressBadLength": "Absenderadresse hat nicht die korrekte Länge!",
-        "fromAddressBadPrefix": "Absenderadresse muss mit 'zn' beginnen!",
+        "fromAddressBadPrefix": "Absenderadresse muss mit 't1' beginnen!",
         "toAddressBadLength": "Empfängeradresse hat nicht die korrekte Länge!",
-        "toAddressBadPrefix": "Empfängeradresse muss mit 'zn' beginnen!",
+        "toAddressBadPrefix": "Empfängeradresse muss mit 't1' beginnen!",
         "amounNotNumber": "Betrag ist keine Zahl",
         "amountIsZero": "Betrag muss größer als Null sein!",
         "feeNotNumber": "Gebühr ist keine Zahl!",
         "feeIsNegative": "Gebühr muss größer oder gleich Null sein!",
         "error": "Error",
         "success": "Die Transaktion wurde erfolgreich gesendet",
-        "isCoinbaseUTXO": "Ihre Adresse enthält neu geschürfte Coins, auch Coinbase unverbrauchte Transaktionsausgabe (coinbase unspent transaction outputs/coinbase UTXO) genannt. Diese müssen anonymisiert und de-anonymisiert werden, bevor sie ausgegeben werden können. Bitte importieren Sie den privaten Schlüssel in eine Full Wallet wie Swing und senden Sie alle Coins von dieser Adresse zu einer Z-Adresse und zurück zu dieser T-Adresse. Danach werden Sie die Coins auch in Arizen ausgeben können.",
-        "tooManyUTXOs": "Your address consists of too many UTXOs, it is not possible to send this transaction via API!",
-        "noSourceAddress": "No source address was selected!"
+        "isCoinbaseUTXO": "Ihre Adresse enthält neu geschürfte Coins, auch Coinbase unverbrauchte Transaktionsausgabe (coinbase unspent transaction outputs/coinbase UTXO) genannt. Diese müssen anonymisiert und de-anonymisiert werden, bevor sie ausgegeben werden können. Bitte importieren Sie den privaten Schlüssel in eine Full Wallet wie Swing und senden Sie alle Coins von dieser Adresse zu einer Z-Adresse und zurück zu dieser T-Adresse. Danach werden Sie die Coins auch in Zero Arizen ausgeben können.",
+        "tooManyUTXOs": "Your address consists of too many UTXOs, it is not possible to send this transaction via API!"
       }
     },
     "transactionHistory": {
@@ -153,7 +150,7 @@
       "createButton": "Erstellen"
     },
     "about": {
-      "label": "Über Arizen",
+      "label": "Über Zero Arizen",
       "homepage": "Homepage",
       "version": "Version",
       "license": "Lizenz",
@@ -164,35 +161,32 @@
       "limit": "Transaktionslimit",
       "items": "Objekte",
       "language": "Sprache",
-      "explorerUrl": "ZEN Explorer URL",
+      "explorerUrl": "ZER Explorer URL",
       "apiUrl": "API URLs",
       "fiat": "Fiat Währung",
       "save": "Speichern",
       "enableNotifications": "Desktop-Benachrichtigungen",
       "enableDomainFronting": "Domain Fronting",
-      "secureNodeFQDN": "Secure Node FQDN",
-      "sshPrivateKey": "Pfad zur privaten SSH-Schlüssel Datei",
-      "sshPassphrase": "Passwort zur Entschlüsselung der privaten SSH-Schlüssel Datei (falls notwendig)",
+      "secureNodeFQDN": "Node FQDN",
       "sshUsername": "SSH Nutzername",
       "sshPassword": "SSH Passwort",
       "sshPort": "SSH Port",
-      "secureNodePort": "Secure Node Port (siehe zen.conf)",
-      "secureNodeUsername": "Secure Node Benutzername (siehe zen.conf)",
-      "secureNodePassword": "Secure Node Passwort (siehe zen.conf)",
+      "secureNodePort": "Node Port (siehe zero.conf)",
+      "secureNodeUsername": "Node Benutzername (siehe zero.conf)",
+      "secureNodePassword": "Node Passwort (siehe zero.conf)",
       "readyTimeout": "Ready Timeout (Standard: 10000)",
       "forwardTimeout": "Forward Timeout (Standard: 10000)",
       "domainFrontingUrl": "Domain fronting öffentliche Basis URL",
       "domainFrontingHost": "Domain fronting privater Host",
       "autoLogOffEnable": "Automatische Abmeldung",
-      "autoLogOffTimeout": "Dauer bis zur automatischen Abmeldung",
-      "chooseKeyPath": "Browse"
+      "autoLogOffTimeout": "Dauer bis zur automatischen Abmeldung"
     },
     "paperWallet": {
       "label": "Paper Wallet",
       "generateNewWallet": "Neue Wallet erstellen",
       "name": "Name (optional)",
-      "addWalletToArizen": "Diese Wallet zu Arizen hinzufügen",
-      "zenCashWalletLabel": "ZenCash Wallet",
+      "addWalletToArizen": "Diese Wallet zu Zero Arizen hinzufügen",
+      "zenCashWalletLabel": "Zero Wallet",
       "tAddrLabel": "Öffentlicher Schlüssel - T-Adresse",
       "privateKeyLabel": "Privater Schlüssel",
       "namePrint": "Name",
@@ -200,7 +194,8 @@
     },
     "batchWithdraw": {
       "label": "Gruppenauszahlung",
-      "keepAmount": "Zu behaltener Betrag"
+      "keepAmount": "Zu behaltener Betrag",
+      "txFee": "Transakltionsgebühr"
     },
     "importSinglePrivateKey": {
       "openButtonLabel": "Privaten Schlüssel importieren",
@@ -225,27 +220,14 @@
       "results": "RPC Ausgabe ...",
       "status": "Status: ",
       "testFunctionButton": "Funktion testen"
-    },
-    "batchSplit": {
-      "label": "Batch Split",
-      "splitToAmounts": "Split to amounts",
-      "toAddresses": "To addresses:",
-      "splitButtonLabel": "Split",
-      "messages": {
-        "splitToIsZero": "Split to amounts have to be greater than zero!",
-        "unknownAddress": "One of your destination address is not in your wallet!",
-        "tooManyInputsOutputs": "Your transaction contains too many inputs/outputs addresses, please try less address!"
-      }
-    },
-    "max": "Max",
-    "showBatchSplitDialog": "Batch Split"
+    }
   },
   "menu": {
     "file": "Datei",
     "backupEncrypted": "Wallet VERSCHLÜSSELT sichern",
     "backupUnencrypted": "Wallet UNVERSCHLÜSSELT sichern",
-    "importEncrypted": "VERSCHLÜSSELTE Arizen Wallet importieren",
-    "importUnencrypted": "UNVERSCHLÜSSELTE Arizen wallet importieren",
+    "importEncrypted": "VERSCHLÜSSELTE Zero Arizen Wallet importieren",
+    "importUnencrypted": "UNVERSCHLÜSSELTE Zero Arizen wallet importieren",
     "importPrivateKeys": "Private Schlüssel importieren",
     "exportPrivateKeys": "Private Schlüssel exportieren",
     "exit": "Beenden",
@@ -262,19 +244,19 @@
     "helpSubmenu": {
       "arizenManual": "Benutzerhandbuch",
       "support": "Support",
-      "zencash": "ZenCash"
+      "zencash": "Zero"
     },
     "changeWalletPassword": "Wallet-Passwort ändern"
   },
   "warmingMessages": {
-    "userWarningImportFileWithPKs": "Neue Adresse(n) und private(r) Schlüssel werden importiert. Die bisher durchgeführten Backups enthalten weder die neu importierte(n) Adresse(n), noch den/die private(n) Schlüssel. Bitte nutzen Sie das Backup-Feature von Arizen um ein neues Backup anzulegen und ersetzen Sie Ihr bisheriges Backup durch das Neue. Durch Klicken auf 'Verstanden' bestätigen Sie, diesen Hinweis verstanden zu haben. Für weitere Informationen sehen Sie sich das Hilfe-Menü von Arizen an.",
-    "userWarningExportWalletUnencrypted": "Sie sind dabei, eine UNVERSCHLÜSSELTE Wallet (sprich: private Schlüssel) als Text zu exportieren. Das bedeutet, dass jeder, der diese Datei besitzt, Ihre ZEN kontrollieren kann. Legen Sie diese Datei an einem sicheres Ort ab. Durch Klicken auf 'Verstanden' bestätigen Sie, diesen Hinweis verstanden zu haben. Für weitere Informationen sehen Sie sich das Hilfe-Menü von Arizen an.",
-    "userWarningExportWalletEncrypted": "Sie sind dabei, eine VERSCHLÜSSELTE Wallet zu exportieren, und Ihre privaten Schlüssel werden verschlüsselt sein. Das bedeutet, dass Sie den Namen der Wallet und das Passwort kennen müssen, um auf Ihre privaten Schlüssel zugreifen zu können. Falls Sie diese nicht kennen sollten, können Sie auf die ZEN, die durch diese privaten Schlüssel kontrolliert werden, nicht kontrollieren können. Durch Klicken auf 'Verstanden' bestätigen Sie, diesen Hinweis verstanden zu haben. Für weitere Informationen sehen Sie sich das Hilfe-Menü von Arizen an.",
-    "userWarningImportPK": "Eine neue Adresse und ein privater Schlüssel werden importiert. Ihre vorherigen Backups beinhalten weder diese neu importierte Adresse, noch den entsprechenden privaten Schlüssel. Bitte nutzen Sie die Backup-Funktion von Arizen, um ein neues Backup anzulegen und ersetzen Sie Ihr altes Backup. Durch Klicken auf 'Verstanden' bestätigen Sie, diesen Hinweis verstanden zu haben. Für weitere Informationen sehen Sie sich das Hilfe-Menü von Arizen an.",
-    "userWarningCreateNewAddress": "Eine neue Adresse und ein privater Schlüssel werden erstellt. Ihre vorherigen Backups beinhalten weder diese neu erstellte Adresse, noch den entsprechenden privaten Schlüssel. Bitte nutzen Sie die Backup-Funktion von Arizen, um ein neues Backup anzulegen und ersetzen Sie Ihr altes Backup. Durch Klicken auf 'Verstanden' bestätigen Sie, diesen Hinweis verstanden zu haben. Für weitere Informationen sehen Sie sich das Hilfe-Menü von Arizen an.",
+    "userWarningImportFileWithPKs": "Neue Adresse(n) und private(r) Schlüssel werden importiert. Die bisher durchgeführten Backups enthalten weder die neu importierte(n) Adresse(n), noch den/die private(n) Schlüssel. Bitte nutzen Sie das Backup-Feature von Zero Arizen um ein neues Backup anzulegen und ersetzen Sie Ihr bisheriges Backup durch das Neue. Durch Klicken auf 'Verstanden' bestätigen Sie, diesen Hinweis verstanden zu haben. Für weitere Informationen sehen Sie sich das Hilfe-Menü von Zero Arizen an.",
+    "userWarningExportWalletUnencrypted": "Sie sind dabei, eine UNVERSCHLÜSSELTE Wallet (sprich: private Schlüssel) als Text zu exportieren. Das bedeutet, dass jeder, der diese Datei besitzt, Ihre ZER kontrollieren kann. Legen Sie diese Datei an einem sicheres Ort ab. Durch Klicken auf 'Verstanden' bestätigen Sie, diesen Hinweis verstanden zu haben. Für weitere Informationen sehen Sie sich das Hilfe-Menü von Zero Arizen an.",
+    "userWarningExportWalletEncrypted": "Sie sind dabei, eine VERSCHLÜSSELTE Wallet zu exportieren, und Ihre privaten Schlüssel werden verschlüsselt sein. Das bedeutet, dass Sie den Namen der Wallet und das Passwort kennen müssen, um auf Ihre privaten Schlüssel zugreifen zu können. Falls Sie diese nicht kennen sollten, können Sie auf die ZER, die durch diese privaten Schlüssel kontrolliert werden, nicht kontrollieren können. Durch Klicken auf 'Verstanden' bestätigen Sie, diesen Hinweis verstanden zu haben. Für weitere Informationen sehen Sie sich das Hilfe-Menü von Zero Arizen an.",
+    "userWarningImportPK": "Eine neue Adresse und ein privater Schlüssel werden importiert. Ihre vorherigen Backups beinhalten weder diese neu importierte Adresse, noch den entsprechenden privaten Schlüssel. Bitte nutzen Sie die Backup-Funktion von Zero Arizen, um ein neues Backup anzulegen und ersetzen Sie Ihr altes Backup. Durch Klicken auf 'Verstanden' bestätigen Sie, diesen Hinweis verstanden zu haben. Für weitere Informationen sehen Sie sich das Hilfe-Menü von Zero Arizen an.",
+    "userWarningCreateNewAddress": "Eine neue Adresse und ein privater Schlüssel werden erstellt. Ihre vorherigen Backups beinhalten weder diese neu erstellte Adresse, noch den entsprechenden privaten Schlüssel. Bitte nutzen Sie die Backup-Funktion von Zero Arizen, um ein neues Backup anzulegen und ersetzen Sie Ihr altes Backup. Durch Klicken auf 'Verstanden' bestätigen Sie, diesen Hinweis verstanden zu haben. Für weitere Informationen sehen Sie sich das Hilfe-Menü von Zero Arizen an.",
     "userWarningIUnderstand": "Verstanden",
     "cancel": "Abbrechen",
-    "userWarningImportPkUserZendRescan": "Das Guthaben der importieren Z-Adresse wird nach einem erneuten Scan der Blockchain sichtbar. Bitte führen Sie 'zen-cli stop && sleep 8 && zend -rescan' auf der Secure Node (linux) aus."
+    "userWarningImportPkUserZendRescan": "Das Guthaben der importieren Z-Adresse wird nach einem erneuten Scan der Blockchain sichtbar. Bitte führen Sie 'zcash-cli stop && sleep 8 && zcashd -rescan' auf der Node (linux) aus."
   },
   "common": {
     "selectAll": "Alles auswählen",
