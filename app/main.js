@@ -18,7 +18,7 @@ const passwordHash = require("password-hash");
 const crypto = require("crypto");
 const bitcoin = require("bitcoinjs-lib");
 const bip32utils = require("bip32-utils");
-const zencashjs = require("zencashjs");
+const zerojs = require("zerojs");
 const sql = require("sql.js");
 const updater = require("electron-simple-updater");
 const axios = require("axios");
@@ -26,13 +26,13 @@ const querystring = require("querystring");
 const {List} = require("immutable");
 const {translate} = require("./util.js");
 const {DateTime} = require("luxon");
-const {zenextra} = require("./zenextra.js");
+const {zerextra} = require("./zerextra.js");
 
 let oldZAddrJSON;
 
-const userWarningImportFileWithPKs = "New address(es) and a private key(s) will be imported. Your previous back-ups do not include the newly imported addresses or the corresponding private keys. Please use the backup feature of Arizen to make new backup file and replace your existing Arizen wallet backup. By pressing 'I understand' you declare that you understand this. For further information please refer to the help menu of Arizen.";
-const userWarningExportWalletUnencrypted = "You are going to export an UNENCRYPTED wallet ( ie your private keys) in plain text. That means that anyone with this file can control your ZENs. Store this file in a safe place. By pressing 'I understand' you declare that you understand this. For further information please refer to the help menu of Arizen.";
-const userWarningExportWalletEncrypted = "You are going to export an ENCRYPTED wallet and your private keys will be encrypted. That means that in order to access your private keys you need to know the corresponding username and password. In case you don't know them you cannot control the ZENs that are controled by these private keys. By pressing 'I understand' you declare that you understand this. For further information please refer to the help menu of Arizen.";
+const userWarningImportFileWithPKs = "New address(es) and a private key(s) will be imported. Your previous back-ups do not include the newly imported addresses or the corresponding private keys. Please use the backup feature of Zero Arizen to make new backup file and replace your existing Zero Arizen wallet backup. By pressing 'I understand' you declare that you understand this. For further information please refer to the help menu of Zero Arizen.";
+const userWarningExportWalletUnencrypted = "You are going to export an UNENCRYPTED wallet ( ie your private keys) in plain text. That means that anyone with this file can control your ZERs. Store this file in a safe place. By pressing 'I understand' you declare that you understand this. For further information please refer to the help menu of Zero Arizen.";
+const userWarningExportWalletEncrypted = "You are going to export an ENCRYPTED wallet and your private keys will be encrypted. That means that in order to access your private keys you need to know the corresponding username and password. In case you don't know them you cannot control the ZERs that are controled by these private keys. By pressing 'I understand' you declare that you understand this. For further information please refer to the help menu of Zero Arizen.";
 
 // Uncomment if you want to run in production
 // Show/Hide Development menu
@@ -44,7 +44,7 @@ function attachUpdaterHandlers() {
         dialog.showMessageBox({
             type: "info",
             title: "Update is here!",
-            message: `Arizen will close and the new ${version} version will be installed. When the update is complete, the Arizen wallet will reopen.`
+            message: `Zero Arizen will close and the new ${version} version will be installed. When the update is complete, the Zero Arizen wallet will reopen.`
         }, function () {
             // application forces to update itself
             updater.quitAndInstall();
@@ -75,17 +75,15 @@ const defaultSettings = {
     txHistory: 50,
     autoLogOffEnable: 0,
     autoLogOffTimeout: 60,
-    explorerUrl: "https://explorer.zensystem.io",
+    explorerUrl: "https://zero.cryptonode.cloud/insight/",
     apiUrls: [
-        "https://explorer.zensystem.io/insight-api-zen",
-        "https://explorer.zen-solutions.io/api",
-        "http://explorer.zenmine.pro/insight-api-zen"
+        "https://zeroapi.cryptonode.cloud/"
     ],
     secureNodeFQDN: "",
-    secureNodePort: 18231,
+    secureNodePort: 23800,
     domainFronting: false,
-    domainFrontingUrl: "https://www.google.com",
-    domainFrontingHost: "zendhide.appspot.com"
+    domainFrontingUrl: "",
+    domainFrontingHost: ""
 };
 
 const defaultInternalInfo = {pendingTxs: []};
@@ -95,6 +93,9 @@ let langDict;
 let axiosApi;
 let internalInfo = defaultInternalInfo;
 
+setZeroDirs();
+nodeUserPass();
+
 const dbStructWallet = "CREATE TABLE wallet (id INTEGER PRIMARY KEY AUTOINCREMENT, pk TEXT, addr TEXT UNIQUE, lastbalance REAL, name TEXT);";
 const dbStructSettings = "CREATE TABLE settings (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, value TEXT);";
 const dbStructTransactions = "CREATE TABLE transactions (id INTEGER PRIMARY KEY AUTOINCREMENT, txid TEXT, time INTEGER, address TEXT, vins TEXT, vouts TEXT, amount REAL, block INTEGER);";
@@ -103,12 +104,523 @@ function tr(key, defaultVal) {
     return (settings && settings.lang) ? translate(langDict, key, defaultVal) : defaultVal;
 }
 
+var nodeAlive = 0;
+
+function setZeroStatus(status, pos) {
+           if (mainWindow !== null) {
+              if (pos === 0) {
+                     mainWindow.webContents.executeJavaScript(`
+                       document.getElementById("checkZeroStatus").innerHTML = ${JSON.stringify(status)};
+                     `);
+              } else if (pos === 1) {
+                        mainWindow.webContents.executeJavaScript(`
+                          document.getElementById("checkZeroQuit").innerHTML = ${JSON.stringify(status)};
+                        `);
+                }
+           }
+}
+
+function setDefaultConf() {
+  let DEFAULT_CONFIG_SETTINGS = [
+                       "",
+                       "",
+                       "rpcport=23800",
+                       "addnode=213.239.212.246:23801",
+                       "addnode=64.237.50.236:23801",
+                       "addnode=51.255.95.53:23801",
+                       "addnode=79.137.70.151:23801",
+                       "addnode=178.213.233.173:23801",
+                       "addnode=86.31.59.86:23801",
+                       "addnode=138.197.149.3:23801",
+                       "addnode=145.239.71.6:23801",
+                       "addnode=174.138.15.68:23801",
+                       "addnode=zeroseed.cryptoforge.cc:23801",
+                       "addnode=84.19.36.203:23801",
+                       "addnode=zerocurrency.prophetalgorithms.com:23801",
+                       "rpcallowip=127.0.0.1",
+                       "server=1"
+                       ];    
+  let config = '';
+  let nodeDataPath = "";
+  let defaults = DEFAULT_CONFIG_SETTINGS;
+  DEFAULT_CONFIG_SETTINGS[0] = "rpcuser=" + require('crypto').randomBytes(8).toString('base64'); 
+  DEFAULT_CONFIG_SETTINGS[1] = "rpcpassword=" + require('crypto').randomBytes(32).toString('base64');
+ 
+  for(var key in defaults) {
+    config += defaults[key] + '\n';
+  }
+
+  if (os.platform() === "win32") {
+        nodeDataPath = app.getPath("appData") + "\\zero\\";
+    } else if (os.platform() === "darwin") {
+          nodeDataPath = app.getPath("appData") + "/zero/"; 
+      } else if (os.platform() === "linux") {
+           nodeDataPath = app.getPath("home") + "/.zero_arizen/zero/.zero/"; 
+      }
+  if (!fs.existsSync(nodeDataPath + "zero.conf")) {
+    fs.writeFileSync(nodeDataPath + "zero.conf", config);
+  }
+}
+
+function startZeroNode() {   
+    var pkey_expected_sha256sum = "8bc20a7f013b2b58970cddd2e7ea028975c88ae7ceb9259a5344a16bc2c0eef7";
+    var vkey_expected_sha256sum = "4bd498dae0aacfd8e98dc306338d017d9c08dd0918ead18172bd0aec2fc5df82";
+    var algo = 'sha256';
+    var shaPKsum = crypto.createHash(algo); 
+    var shaVKsum = crypto.createHash(algo);  
+    const provingKey = "sprout-proving.key";
+    const verifyingKey = "sprout-verifying.key";
+    var nodePath = "";
+    var nodeDataPath = "";
+    var node = "";
+    var cli = "";
+    var provingPath = "";
+    var nodeStart;
+    var envHome = "";
+    
+    if (os.platform() === "win32") {
+        node = "zcashd.exe";
+        cli = "zcash-cli.exe";
+        nodePath = app.getPath("appData") + "\\Zero_Arizen\\zero\\";
+        provingPath = app.getPath("appData") + "\\ZcashParams\\";
+        nodeDataPath = app.getPath("appData") + "\\zero\\";
+        envHome = app.getPath("appData");
+        nodeStart = require('child_process').exec;
+    } else if (os.platform() === "darwin") {
+         node = "zcashd";
+         cli = "zcash-cli";
+         nodePath = app.getPath("appData") + "/Zero_Arizen/zero/" ;
+         provingPath = app.getPath("appData") + "/ZcashParams/";
+         nodeDataPath = app.getPath("appData") + "/zero/";
+         envHome = app.getPath("home");
+         nodeStart = require('child_process').exec;
+      } else if (os.platform() === "linux") {
+           node = "zcashd";
+           cli = "zcash-cli";
+           nodePath = app.getPath("home") + "/.zero_arizen/zero/";
+           provingPath = app.getPath("home") + "/.zero_arizen/zero/.zcash-params/";
+           nodeDataPath = app.getPath("home") + "/.zero_arizen/zero/.zero/";
+           envHome = nodePath;
+           nodeStart = require('child_process').exec;
+       }
+ 
+   if (fs.existsSync(nodePath + node) && fs.existsSync(nodePath + cli) && fs.existsSync(provingPath + verifyingKey) && fs.existsSync(provingPath + provingKey) && fs.existsSync(nodeDataPath + 'zero.conf')) { 
+           setZeroStatus("/ Checksum sprout-verifying.key ..", 0);         
+           var vkeyStream = fs.ReadStream(provingPath + verifyingKey);
+           vkeyStream.on('data', function(vksum) { shaVKsum.update(vksum); });
+           vkeyStream.on('end', function() {
+               var vksum = shaVKsum.digest('hex');
+               if (vkey_expected_sha256sum === vksum) {
+                        setZeroStatus("/ Checksum sprout-proving.key ..", 0);                       
+                        var pkeyStream = fs.ReadStream(provingPath + provingKey);
+                        pkeyStream.on('data', function(pksum) { shaPKsum.update(pksum); });
+                        pkeyStream.on('end', function() {
+                           var pksum = shaPKsum.digest('hex');               
+                           if (pkey_expected_sha256sum === pksum) {           
+                                 nodeAlive = 1;
+                                 walletLoadMsg();
+                                 nodeStart(nodePath.replace(" ", "\\ ") + node, {env: {'HOME': envHome}} ,function(err, data) {
+                                                        if (err) {
+                                                              nodeAlive = 0;
+                                                              //console.log(err);
+                                                              var errorMsg = err.message.toString().replace('\r','\n').replace('\n\n','\n').split("\n");                             
+                                                              if (err.code === 137 || err.signal === 'SIGKILL') {
+                                                                     setZeroStatus("/ Zero node killed, restart node ..", 0);
+                                                                     startZeroNode();
+                                                              } else if (err.message.endsWith("Zcash is probably already running.\n")) {
+                                                                            nodeAlive = 1;
+                                                                            setZeroStatus("/ Zero node is probably already running.", 0);
+                                                                } else if (errorMsg.length === 13 || errorMsg.length === 14) {
+                                                                               if (errorMsg[1] === "Before starting zcashd, you need to create a configuration file:") {
+                                                                                      setZeroStatus("/ Missing zero.conf", 0); 
+                                                                                      setZeroDirs();
+                                                                                      nodeUserPass();
+                                                                                      startZeroNode(); 
+                                                                               }         
+                                                                  } else if (errorMsg.length === 5 || errorMsg.length === 6 ) {
+                                                                                     if (errorMsg[1] === "Error: Cannot find the Zcash network parameters in the following directory:") {
+                                                                                            setZeroStatus("/ Missing network parameters", 0); 
+                                                                                            setZeroDirs();
+                                                                                            nodeUserPass();
+                                                                                            checkZeroFilesAndStart(); 
+                                                                                     }         
+                                                                    } else if (errorMsg.length === 2) {
+                                                                                        if (err.code === 3221225477) {
+                                                                                               setZeroStatus("/ Missing network parameters", 0); 
+                                                                                               setZeroDirs();
+                                                                                               nodeUserPass();
+                                                                                               checkZeroFilesAndStart(); 
+                                                                                        }         
+                                                                      } else if (errorMsg) {  
+                                                                                  setZeroStatus("/ Node Error!", 0);
+                                                                        }
+                                                        } else {
+                                                              nodeAlive = 0;
+                                                              setZeroStatus("/ Zero node closed, restart node ..", 0);
+                                                              startZeroNode();
+                                                          }
+                                                 });
+                           } else { 
+                                   console.log("Checksum of the proving key is not correct.");
+                                   setZeroStatus("/ Checksum sprout-proving.key failed!", 0); 
+                                   fs.unlinkSync(provingPath + provingKey);
+                                   checkZeroFilesAndStart();                                 
+                                   return "pkey_checksum_not_equal"; 
+                             }
+                       });               
+               } else {
+                       console.log("Checksum of the verifying key is not correct."); 
+                       setZeroStatus("/ Checksum sprout-verifying.key failed!", 0); 
+                       fs.unlinkSync(provingPath + verifyingKey);
+                       checkZeroFilesAndStart();                   
+                       return "vkey_checksum_not_equal";
+                }
+           });
+   } else {
+          setZeroDirs();
+          nodeUserPass();
+          checkZeroFilesAndStart();
+     }  
+}
+
+function checkZeroFilesAndStart() {
+   const https = require('https');
+   const urlKeys = "https://z.cash/downloads/";
+   const provingKey = "sprout-proving.key";
+   const verifyingKey = "sprout-verifying.key";
+   const urlExec = "https://drive.google.com/uc?export=download&id=";
+   const nodeFileLinuxR = "10VAIKlxM-ha5zLUdVejZa9MghOR_RKBl";
+   const cliFileLinuxR = "1OSfjysMmJru_T0QpD7s6uGGR0ZgPjPfN";
+   const nodeFileMacR = "1LE3tVWTgqAlJSQKZtTo3j7N4nExf0hbY";
+   const cliFileMacR = "1EaFhd6m2OeBunDquZo8UFw7Tj_P_4lfS";
+   const nodeFileWindowsR = "1Ybm39kazQiFVqWAsZC9KTo7uo-cgiyRT";
+   const cliFileWindowsR = "1fegubf-wNMkSp8nUuLWbW6boQySU89M8";
+   const nodeFileLinuxL = "zcashd";
+   const cliFileLinuxL = "zcash-cli";
+   const nodeFileMacL = "zcashd";
+   const cliFileMacL = "zcash-cli";
+   const nodeFileWindowsL = "zcashd.exe";
+   const cliFileWindowsL = "zcash-cli.exe";
+   var nodeFileRemote = "";
+   var nodeFileLocal = "";
+   var cliFileRemote = "";
+   var cliFileLocal = "";
+   var nodePath = "";
+   let provingPath = "";
+    
+   if (os.platform() === "win32") { 
+        nodeFileLocal = nodeFileWindowsL;
+        nodeFileRemote = nodeFileWindowsR;
+        cliFileLocal = cliFileWindowsL;
+        cliFileRemote = cliFileWindowsR;
+        nodePath = app.getPath("appData") + "\\Zero_Arizen\\zero\\";
+        provingPath = app.getPath("appData") + "\\ZcashParams\\";
+    } else if (os.platform() === "darwin") {
+           nodeFileLocal = nodeFileMacL;
+           nodeFileRemote = nodeFileMacR;
+           cliFileLocal = cliFileMacL;
+           cliFileRemote = cliFileMacR;
+           nodePath = app.getPath("appData") + "/Zero_Arizen/zero/";
+           provingPath = app.getPath("appData") + "/ZcashParams/";
+       } else if (os.platform() === "linux") {
+             nodeFileLocal = nodeFileLinuxL;
+             nodeFileRemote = nodeFileLinuxR;
+             cliFileLocal = cliFileLinuxL;
+             cliFileRemote = cliFileLinuxR;
+             nodePath = app.getPath("home") + "/.zero_arizen/zero/";
+             provingPath = app.getPath("home") + "/.zero_arizen/zero/.zcash-params/";
+        }
+
+  var filesMissing = [];
+    
+  if (!fs.existsSync(provingPath) || !fs.existsSync(nodePath)) {
+           setZeroDirs();
+  }  
+   
+  if (!fs.existsSync(provingPath + verifyingKey)) { filesMissing.push(verifyingKey); }
+  if (!fs.existsSync(provingPath + provingKey)) { filesMissing.push(provingKey); }
+  if (!fs.existsSync(nodePath + cliFileLocal)) { filesMissing.push(cliFileLocal); }
+  if (!fs.existsSync(nodePath + nodeFileLocal)) { filesMissing.push(nodeFileLocal); }
+  
+  filesMissing.forEach(function(file,i) {      
+   if (file === verifyingKey || file === provingKey ) { 
+                    var url = urlKeys;
+                    var dir = provingPath;
+                    var remoteFile = file;
+                    var localFile = file;
+                    var filePerm = '0644';
+   } else if (file === cliFileLocal || file === nodeFileLocal ) { 
+             if (file === cliFileLocal) { 
+                     var remoteFile = cliFileRemote;
+                     var localFile = file ;
+             } else if (file === nodeFileLocal) {
+                      var remoteFile = nodeFileRemote;
+                      var localFile = file ;
+               }                  
+                    var url = urlExec;
+                    var dir = nodePath;
+                    var filePerm = '0755';
+
+     }
+      https.get(url + remoteFile, (res) => {
+          //console.log(res.statusCode);
+          //console.log(res.headers);
+          if (res.statusCode === 301 || res.statusCode === 302) {    
+           https.get(res.headers.location, (res) => {
+               if (res.statusCode === 200) {                       
+                      var wstream = fs.createWriteStream(dir + localFile, { mode: parseInt(filePerm, 8) });     
+                      res.pipe(wstream);
+               }
+              //console.log(res.statusCode);
+              //console.log(res.headers);
+            res.on('data', (d) => {      
+            });
+            res.on('end', () => {                     
+                      if (filesMissing.indexOf(file) > -1) {
+                          filesMissing.splice(filesMissing.indexOf(file), 1);
+                       }
+                 }); 
+            }).on('error', (e) => { 
+                 console.error(e);
+                 //if (e.code === 'ECONNRESET') {}
+              }); 
+         } else if (res.statusCode === 200) {
+                     var wstream = fs.createWriteStream(dir + localFile, { mode: parseInt(filePerm, 8) });     
+                     res.pipe(wstream);
+                 //console.log(res.statusCode);
+                 //console.log(res.headers);
+                 res.on('end', function() {                   
+                      if (filesMissing.indexOf(file) > -1) {
+                          filesMissing.splice(filesMissing.indexOf(file), 1);                    
+                       }               
+                 });
+                }
+       res.on('data', (d) => {      
+       });
+       }).on('error', (e) => { 
+            console.error(e);
+         });  
+ });
+
+     var timeoutId = setTimeout(function checkDownload() {
+                          if (filesMissing.length === 0) {
+                               startZeroNode();
+                               clearTimeout(timeoutId);    
+                          } else {
+                                let s = function(){ if (filesMissing.length > 1) { return "s"; } else { return ""; }};
+                                setZeroStatus("/ Downloading " +  filesMissing.length + " file" + s(), 0);               
+                                setTimeout(checkDownload, 3000);
+                            }
+                     }, 0);
+}
+
+function nodeUserPass(userOrPasswd) {
+          let nodeDataPath = "";
+
+          if (os.platform() === "win32") {       
+              nodeDataPath = app.getPath("appData") + "\\zero\\";
+          } else if (os.platform() === "darwin") {      
+               nodeDataPath = app.getPath("appData") + "/zero/";
+            } else if (os.platform() === "linux") {             
+                 nodeDataPath = app.getPath("home") + "/.zero_arizen/zero/.zero/";
+           } 
+        if (fs.existsSync(nodeDataPath + 'zero.conf')) {
+          var login = [];
+          var zeroConf = fs.readFileSync(nodeDataPath + 'zero.conf').toString().split("\n");
+          zeroConf.forEach(function(line) {
+              if (line.startsWith("rpcuser=")) {
+                       login[0] = line.substr(8);         
+              } else if (line.startsWith("rpcpassword=")) {
+                           login[1] = line.substr(12);
+                }     
+          });
+           if (login.length === 2) {
+               settings.secureNodeUsername = login[0];
+               settings.secureNodePassword = login[1];
+               if (mainWindow !== null && typeof mainWindow !== 'undefined') {
+                        mainWindow.webContents.send("settings", JSON.stringify(settings));
+               }
+               if (userOrPasswd === "username") {
+                                  return login[0];
+               } else if (userOrPasswd === "password") {
+                               return login[1];
+                 }
+           
+          } else { 
+               console.log("User or Password missing.");
+               return 0;
+            }
+        } else {
+             return 0;
+          }        
+}
+
+function walletLoadMsg() {
+        let nodePath = "";
+        let nodeDataPath = "";
+        let cli = "";
+        let envHome = "";
+        var nodeCheck;
+
+        if (os.platform() === "win32") {
+            cli = "zcash-cli.exe";
+            nodePath = app.getPath("appData") + "\\Zero_Arizen\\zero\\";
+            nodeDataPath = app.getPath("appData") + "\\zero\\";
+            envHome = app.getPath("appData");
+            nodeCheck = require('child_process').exec;
+        } else if (os.platform() === "darwin") {      
+             cli = "zcash-cli";
+             nodePath = app.getPath("appData") + "/Zero_Arizen/zero/";
+             nodeDataPath = app.getPath("appData") + "/zero/";
+             envHome = app.getPath("home");
+             nodeCheck = require('child_process').exec;
+          } else if (os.platform() === "linux") {             
+               cli = "zcash-cli";
+               nodePath = app.getPath("home") + "/.zero_arizen/zero/";
+               nodeDataPath = app.getPath("home") + "/.zero_arizen/zero/.zero/";
+               envHome = nodePath;
+               nodeCheck = require('child_process').exec;
+           } 
+           
+        if (fs.existsSync(nodeDataPath + 'zero.conf')) {        
+               let checkWallet = setInterval(function() {
+                   nodeCheck(nodePath.replace(" ", "\\ ") + cli + ' -rpcuser=' + settings.secureNodeUsername + ' -rpcpassword=' + settings.secureNodePassword + ' help',{env: {'HOME': envHome}}, function(err, data) {
+                                                    if (err) {
+                                                         //console.log(err);
+                                                         var errorMsg = err.message.toString().replace('\r','\n').replace('\n\n','\n').split("\n");
+                                                         if (errorMsg.length === 5) {
+                                                                 if (errorMsg.includes("error code: -28")) {  
+                                                                           setZeroStatus("/ " + errorMsg[3], 0);    
+                                                                 }
+                                                         } else if (errorMsg.length === 3) {
+                                                              if (errorMsg[1] === "error: incorrect rpcuser or rpcpassword (authorization failed)") {
+                                                                  setZeroStatus("/ Incorrect rpcuser or rpcpassword", 0);
+                                                                  clearInterval(checkWallet); 
+                                                              }
+                                                           } else if (errorMsg.length === 4) {
+                                                                 if (errorMsg[1] === "error: couldn't connect to server: unknown (code -1)" || errorMsg[1] === "error: couldn't connect to server: EOF reached (code 1)") {
+                                                                       setZeroStatus("/ error: couldn't connect to node", 0);
+                                                                       clearInterval(checkWallet);                                                             
+                                                                 }                 
+                                                            } else if (errorMsg) {
+                                                                         clearInterval(checkWallet);
+                                                              }   
+                                                    } else { 
+                                                            setZeroStatus("", 0);
+                                                            clearInterval(checkWallet);                                                        
+                                                      }
+                                                 });          
+         }, 1000);       
+        } else {
+              setZeroStatus("/ Missing zero.conf", 0);
+          }
+}
+
+function stopZeroNode() {
+        let nodePath = "";
+        let nodeDataPath = "";
+        let cli = "";
+        let envHome = "";
+        var nodeStop;
+
+        if (os.platform() === "win32") {
+            cli = "zcash-cli.exe";
+            nodePath = app.getPath("appData") + "\\Zero_Arizen\\zero\\";
+            nodeDataPath = app.getPath("appData") + "\\zero\\";
+            envHome = app.getPath("appData");
+            nodeStop = require('child_process').exec;
+        } else if (os.platform() === "darwin") {      
+             cli = "zcash-cli";
+             nodePath = app.getPath("appData") + "/Zero_Arizen/zero/";
+             nodeDataPath = app.getPath("appData") + "/zero/";
+             envHome = app.getPath("home");
+             nodeStop = require('child_process').exec;
+          } else if (os.platform() === "linux") {             
+               cli = "zcash-cli";
+               nodePath = app.getPath("home") + "/.zero_arizen/zero/";
+               nodeDataPath = app.getPath("home") + "/.zero_arizen/zero/.zero/";
+               envHome = nodePath;
+               nodeStop = require('child_process').exec;
+           } 
+          
+         setZeroStatus("/ Quitting ..", 1);
+    
+                    let timeoutId = setTimeout(function stopNode () {
+                       nodeStop(nodePath.replace(" ", "\\ ") + cli + ' -rpcuser=' + settings.secureNodeUsername + ' -rpcpassword=' + settings.secureNodePassword + ' stop',{env: {'HOME': envHome}}, function(err, data) {
+                                                         
+                                                         if (err === null) {
+                                                            console.log('Zero quitting.');
+                                                            app.quit();
+                                                        } else {
+                                                             //console.log(err);
+                                                             var errorMsg = err.message.toString().replace('\r','\n').replace('\n\n','\n').split("\n");
+                                                             if (errorMsg.length === 4) {
+                                                               if (errorMsg[1] === "error: couldn't connect to server: unknown (code -1)" || errorMsg[1] === "error: couldn't connect to server: EOF reached (code 1)") {
+                                                                     app.quit();
+                                                               }
+                                                             } else if (errorMsg.length === 5) {
+                                                                 if (errorMsg[1].endsWith("-28")) {  
+                                                                           setTimeout(stopNode, 1000);
+                                                                 }         
+                                                               } else if (errorMsg.length === 3) {
+                                                                    if (errorMsg[1].endsWith("not found")) {  
+                                                                             app.quit();
+                                                                    }
+                                                                    if (errorMsg[1] === "Error reading configuration file: Missing zero.conf") {
+                                                                             setZeroStatus("/ Missing zero.conf", 0); 
+                                                                             setZeroDirs();
+                                                                             setTimeout(stopNode, 1000);
+                                                                    }         
+                                                                 } 
+                                                         }    
+                                                 });                          
+                        }, 0);      
+} 
+
+function setZeroDirs() {
+    let paths = [];
+    let checkDir = function (pathList) {
+            pathList.forEach(function(path) {
+                if (!fs.existsSync(path)) {
+                        fs.mkdirSync(path);
+                }
+
+           });
+       };
+    if (os.platform() === "win32") { 
+        paths.push(app.getPath("appData") + "\\Zero_Arizen\\");       
+        paths.push(app.getPath("appData") + "\\Zero_Arizen\\zero\\");
+        paths.push(app.getPath("appData") + "\\ZcashParams\\");
+        paths.push(app.getPath("appData") + "\\zero\\");
+        checkDir(paths);
+        if (!fs.existsSync(app.getPath("appData") + "\\zero\\" + "zero.conf")) { setDefaultConf(); }
+    } else if (os.platform() === "darwin") { 
+          paths.push(app.getPath("appData") + "/Zero_Arizen/");       
+          paths.push(app.getPath("appData") + "/Zero_Arizen/zero/");
+          paths.push(app.getPath("appData") + "/ZcashParams/");
+          paths.push(app.getPath("appData") + "/zero/");
+          checkDir(paths);
+          if (!fs.existsSync(app.getPath("appData") + "/zero/" + "zero.conf")) { setDefaultConf(); }
+      }
+      else if (os.platform() === "linux") {      
+            paths.push(app.getPath("home") + "/.zero_arizen/");       
+            paths.push(app.getPath("home") + "/.zero_arizen/zero/");
+            paths.push(app.getPath("home") + "/.zero_arizen/zero/.zcash-params/");
+            paths.push(app.getPath("home") + "/.zero_arizen/zero/.zero/");
+            checkDir(paths); 
+            if (!fs.existsSync(app.getPath("home") + "/.zero_arizen/zero/" + ".zero/zero.conf")) { setDefaultConf(); }  
+      } else {
+        console.log("Unidentified OS.");
+        app.exit(0);
+    }
+}
+
 function getRootConfigPath() {
     let rootPath = "";
     if (os.platform() === "win32" || os.platform() === "darwin") {
-        rootPath = app.getPath("appData") + "/Arizen/";
+        rootPath = app.getPath("appData") + "/Zero_Arizen/";
     } else if (os.platform() === "linux") {
-        rootPath = app.getPath("home") + "/.arizen/";
+        rootPath = app.getPath("home") + "/.zero_arizen/";
         if (!fs.existsSync(rootPath)) {
             fs.mkdirSync(rootPath);
         }
@@ -343,16 +855,16 @@ function generateNewWallet(login, password) {
     let pk;
     let pubKey;
     let db = new sql.Database();
-    let privateKeys = generateNewAddress(42, password);
+    let privateKeys = generateNewAddress(1, password);
 
     // Run a query without reading the results
     db.run(dbStructWallet);
     db.run(dbStructTransactions);
     db.run(dbStructSettings);
-    for (i = 0; i <= 42; i += 1) {
-        pk = zencashjs.address.WIFToPrivKey(privateKeys[i]);
-        pubKey = zencashjs.address.privKeyToPubKey(pk, true);
-        db.run("INSERT INTO wallet VALUES (?,?,?,?,?)", [null, pk, zencashjs.address.pubKeyToAddr(pubKey), 0, ""]);
+    for (i = 0; i < 1; i += 1) {
+        pk = zerojs.address.WIFToPrivKey(privateKeys[i]);
+        pubKey = zerojs.address.privKeyToPubKey(pk, true);
+        db.run("INSERT INTO wallet VALUES (?,?,?,?,?)", [null, pk, zerojs.address.pubKeyToAddr(pubKey), 0, ""]);
     }
 
     let data = db.export();
@@ -365,8 +877,8 @@ function getNewAddress(name) {
     let addr;
     let privateKeys = generateNewAddress(1, userInfo.pass);
 
-    pk = zencashjs.address.WIFToPrivKey(privateKeys[0]);
-    addr = zencashjs.address.pubKeyToAddr(zencashjs.address.privKeyToPubKey(pk, true));
+    pk = zerojs.address.WIFToPrivKey(privateKeys[0]);
+    addr = zerojs.address.pubKeyToAddr(zerojs.address.privKeyToPubKey(pk, true));
     userInfo.walletDb.run("INSERT INTO wallet VALUES (?,?,?,?,?)", [null, pk, addr, 0, name]);
     saveWallet();
 
@@ -446,6 +958,8 @@ function saveInternalInfo(internalInfo) {
 }
 
 function setSettings(newSettings) {
+    newSettings.secureNodeUsername = settings.secureNodeUsername;
+    newSettings.secureNodePassword = settings.secureNodePassword;
     settings = newSettings;
 
     if (settings.domainFronting) {
@@ -459,7 +973,7 @@ function setSettings(newSettings) {
     }
     else {
         axiosApi = axios.create({
-            baseURL: "https://explorer.zensystem.io/insight-api-zen",
+            baseURL: "https://zeroapi.cryptonode.cloud/",
             timeout: 30000,
         });
     }
@@ -549,15 +1063,15 @@ function exportPKs() {
             } else {
                 const keys = sqlSelectObjects("select pk, addr from wallet where length(addr)=35");
                 for (let k of keys) {
-                    if (zenextra.isPK(k.pk)) {
-                        const wif = zencashjs.address.privKeyToWIF(k.pk, true);
+                    if (zerextra.isPK(k.pk)) {
+                        const wif = zerojs.address.privKeyToWIF(k.pk, true);
                         fs.write(fd, wif + " " + k.addr + "\n");
                     }
                 }
                 const zkeys = sqlSelectObjects("select pk, addr from wallet where length(addr)=95");
                 for (let k of zkeys) {
-                    if (zenextra.isPK(k.pk)) {
-                        const spendingKey = zencashjs.zaddress.zSecretKeyToSpendingKey(k.pk);
+                    if (zerextra.isPK(k.pk)) {
+                        const spendingKey = zerojs.zaddress.zSecretKeyToSpendingKey(k.pk);
                         fs.write(fd, spendingKey + " " + k.addr + "\n");
                     }
                 }
@@ -576,7 +1090,7 @@ function exportPKs() {
             dialog.showSaveDialog({
                 type: "warning",
                 title: "Choose file for private keys",
-                defaultPath: "arizen-private-keys-" + userInfo.login + ".txt"
+                defaultPath: "zero-arizen-private-keys-" + userInfo.login + ".txt"
             }, filename => {
                 if (filename) {
                     exportToFile(filename);
@@ -592,18 +1106,18 @@ function importOnePK(pk, name = "", isT = true) {
         let addr;
         if (isT) {
             if (pk.length !== 64) {
-                pk = zencashjs.address.WIFToPrivKey(pk);
+                pk = zerojs.address.WIFToPrivKey(pk);
             }
-            const pub = zencashjs.address.privKeyToPubKey(pk, true);
-            addr = zencashjs.address.pubKeyToAddr(pub);
+            const pub = zerojs.address.privKeyToPubKey(pk, true);
+            addr = zerojs.address.pubKeyToAddr(pub);
         } else {
             if (pk.length !== 64) {
-                pk = zenextra.spendingKeyToSecretKey(pk); // pk = spendingKey
+                pk = zerextra.spendingKeyToSecretKey(pk); // pk = spendingKey
             }
             let secretKey = pk;
-            let aPk = zencashjs.zaddress.zSecretKeyToPayingKey(secretKey);
-            let encPk = zencashjs.zaddress.zSecretKeyToTransmissionKey(secretKey);
-            addr = zencashjs.zaddress.mkZAddress(aPk, encPk);
+            let aPk = zerojs.zaddress.zSecretKeyToPayingKey(secretKey);
+            let encPk = zerojs.zaddress.zSecretKeyToTransmissionKey(secretKey);
+            addr = zerojs.zaddress.mkZAddress(aPk, encPk);
         }
         sqlRun("insert or ignore into wallet (pk, addr, lastbalance, name) values (?, ?, 0, ?)", pk, addr, name);
     } catch (err) {
@@ -766,7 +1280,7 @@ async function updateBlockchainView(webContents) {
         }
     }
 
-    // Why here ? In case balance is unchanged the 'update-wallet-balance' is never sent, but the Zen/Fiat balance will change.
+    // Why here ? In case balance is unchanged the 'update-wallet-balance' is never sent, but the Zer/Fiat balance will change.
     webContents.send("send-refreshed-wallet-balance", totalBalance);
 
     for (const tx of result.newTxs) {
@@ -928,21 +1442,21 @@ function createHelpSubmenu() {
             label: tr("menu.helpSubmenu.arizenManual", "User Manual"),
             accelerator: "CmdOrCtrl+H",
             click: () => {
-                require("electron").shell.openExternal("https://github.com/ZencashOfficial/arizen#user-manuals");
+                require("electron").shell.openExternal("https://github.com/ProphetAlgorithms/zero-arizen#user-manuals");
             }
         },
         {
             label: tr("menu.helpSubmenu.support", "Support"),
             accelerator: "Shift+CmdOrCtrl+S",
             click: () => {
-                require("electron").shell.openExternal("https://support.zencash.com");
+                require("electron").shell.openExternal("http://t.me/zerocurrency");
             }
         },
         {type: "separator"},
         {
-            label: tr("menu.helpSubmenu.zencash", "ZenCash"),
+            label: tr("menu.helpSubmenu.zencash", "Zero"),
             click: () => {
-                require("electron").shell.openExternal("https://zencash.com");
+                require("electron").shell.openExternal("https://zerocurrency.io");
             }
         }
     ];
@@ -1037,7 +1551,7 @@ function updateMenuAtLogin() {
                 {
                     label: tr("menu.exit", "Exit"),
                     click() {
-                        app.quit();
+                        stopZeroNode();
                     }
                 }
             ]
@@ -1066,7 +1580,7 @@ function updateMenuAtLogout() {
                 {
                     label: tr("menu.exit", "Exit"),
                     click() {
-                        app.quit();
+                        stopZeroNode();
                     }
                 }
             ]
@@ -1086,7 +1600,7 @@ function updateMenuAtLogout() {
 
 function createWindow() {
     updateMenuAtLogout();
-    mainWindow = new BrowserWindow({width: 1010, height: 730, resizable: true, icon: "resources/zen_icon.png"});
+    mainWindow = new BrowserWindow({width: 1010, height: 730, resizable: true, icon: "resources/zer_icon.png"});
 
     // mainWindow.webContents.openDevTools();
 
@@ -1125,7 +1639,7 @@ app.on("ready", () => createWindow());
 
 // Quit when all windows are closed.
 app.on("window-all-closed", function () {
-    app.quit();
+    stopZeroNode();
 });
 
 app.on("activate", function () {
@@ -1228,6 +1742,9 @@ ipcMain.on("verify-login-info", function (event, login, pass) {
                 response: "OK",
                 user: login
             };
+            if (nodeAlive === 0) {
+               checkZeroFilesAndStart();
+            }
         }
     } else {
         resp = {
@@ -1263,7 +1780,7 @@ ipcMain.on("do-logout", function () {
 });
 
 ipcMain.on("exit-from-menu", function () {
-    app.quit();
+    stopZeroNode();
 });
 
 function importSingleKey(name, pk, isT) {
@@ -1411,8 +1928,8 @@ function checkSendParameters(fromAddresses, toAddresses, fee) {
             errors.push(tr("wallet.tabWithdraw.messages.fromAddressBadLength", "Bad length of the source address!"));
         }
 
-        if (fromAddress.substring(0, 2) !== "zn") {
-            errors.push(tr("wallet.tabWithdraw.messages.fromAddressBadPrefix", "Bad source address prefix - it has to be 'zn'!"));
+        if (fromAddress.substring(0, 2) !== "t1") {
+            errors.push(tr("wallet.tabWithdraw.messages.fromAddressBadPrefix", "Bad source address prefix - it has to be 't1'!"));
         }
     }
 
@@ -1421,8 +1938,8 @@ function checkSendParameters(fromAddresses, toAddresses, fee) {
             errors.push(tr("wallet.tabWithdraw.messages.toAddressBadLength", "Bad length of the destination address!"));
         }
 
-        if (toAddress.substring(0, 2) !== "zn") {
-            errors.push(tr("wallet.tabWithdraw.messages.toAddressBadPrefix", "Bad destination address prefix - it has to be 'zn'!"));
+        if (toAddress.substring(0, 2) !== "t1") {
+            errors.push(tr("wallet.tabWithdraw.messages.toAddressBadPrefix", "Bad destination address prefix - it has to be 't1'!"));
         }
     }
 
@@ -1507,7 +2024,7 @@ ipcMain.on("send", async function (event, fromAddress, toAddress, fee, amount) {
         const sendRawTxURL = "/tx/send";
 
         // Building our transaction TXOBJ
-        // Calculate maximum ZEN satoshis that we have
+        // Calculate maximum ZER satoshis that we have
         let satoshisSoFar = 0;
         let history = [];
         let recipients = [{address: toAddress, satoshis: amountInSatoshi}];
@@ -1527,7 +2044,7 @@ ipcMain.on("send", async function (event, fromAddress, toAddress, fee, amount) {
             }
 
             if (txData[i].isCoinbase) {
-                err = tr("wallet.tabWithdraw.messages.isCoinbaseUTXO", "Your address contains newly mined coins, also called coinbase unspent transaction outputs (coinbase UTXO). These need to be shielded and unshielded first before they can be spent, please import the private key of this address into a full wallet like Swing and then send all your coins from this address to a Z-address and then back to this T-address. You will be then able to spend them in Arizen as well.");
+                err = tr("wallet.tabWithdraw.messages.isCoinbaseUTXO", "Your address contains newly mined coins, also called coinbase unspent transaction outputs (coinbase UTXO). These need to be shielded and unshielded first before they can be spent, please import the private key of this address into a full wallet like Swing and then send all your coins from this address to a Z-address and then back to this T-address. You will be then able to spend them in Zero Arizen as well.");
                 event.sender.send("send-finish", "error", err);
                 return;
             }
@@ -1559,15 +2076,15 @@ ipcMain.on("send", async function (event, fromAddress, toAddress, fee, amount) {
         }
 
         // Create transaction
-        let txObj = zencashjs.transaction.createRawTx(history, recipients, blockHeight, blockHash);
+        let txObj = zerojs.transaction.createRawTx(history, recipients, blockHeight, blockHash);
 
         // Sign each history transcation
         for (let i = 0; i < history.length; i++) {
-            txObj = zencashjs.transaction.signTx(txObj, i, privateKey, true);
+            txObj = zerojs.transaction.signTx(txObj, i, privateKey, true);
         }
 
         // Convert it to hex string
-        const txHexString = zencashjs.transaction.serializeTx(txObj);
+        const txHexString = zerojs.transaction.serializeTx(txObj);
         const txRespData = await apiPost(sendRawTxURL, {rawtx: txHexString});
 
         let message = "TXid:\n\n<small>" + txRespData.txid + "</small><br /><a href=\"javascript:void(0)\" onclick=\"openUrl('" + settings.explorerUrl + "/tx/" + txRespData.txid + "')\" class=\"walletListItemDetails transactionExplorer\" target=\"_blank\">Show Transaction in Explorer</a>";
@@ -1738,7 +2255,7 @@ function calculateForNaddress(event, start, nAddress, data, thresholdLimitInSato
     }
 
     // Create transaction
-    let txObj = zencashjs.transaction.createRawTx(history, recipients, blockHeight, blockHash);
+    let txObj = zerojs.transaction.createRawTx(history, recipients, blockHeight, blockHash);
 
     // Sign history/transaction with PKs
     let j = 0;
@@ -1749,14 +2266,14 @@ function calculateForNaddress(event, start, nAddress, data, thresholdLimitInSato
             }
 
             for (let i = 0; i < value.history.length; i++) {
-                txObj = zencashjs.transaction.signTx(txObj, j, value.pk, true);
+                txObj = zerojs.transaction.signTx(txObj, j, value.pk, true);
                 j += 1;
             }
         }
     }
 
     // Convert it to hex string
-    return zencashjs.transaction.serializeTx(txObj);
+    return zerojs.transaction.serializeTx(txObj);
 }
 
 /**
@@ -1827,10 +2344,10 @@ function getMaxTxHexStrings(event, txData, thresholdLimitInSatoshi, feeInSatoshi
 
 /**
  * @param event
- * @param {array} fromAddressesAll - Array of strings, array of ZEN addresses
- * @param toAddress - one destination ZEN address
+ * @param {array} fromAddressesAll - Array of strings, array of ZER addresses
+ * @param toAddress - one destination ZER address
  * @param fee - fee for the whole transaction
- * @param thresholdLimit - How many ZENs will remain in every fromAddresses
+ * @param thresholdLimit - How many ZERs will remain in every fromAddresses
  */
 ipcMain.on("send-many", async function (event, fromAddressesAll, toAddress, fee, thresholdLimit = 42.0) {
     let paramErrors = checkBatchWithdrawParameters(fromAddressesAll, toAddress, fee, thresholdLimit);
