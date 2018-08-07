@@ -3,14 +3,13 @@
   "languageValue": "cs",
   "langFileVersion": "1",
   "login": {
-    "label": "Arizen: Přihlášení",
+    "label": "Zero Arizen: Přihlášení",
     "username": "Jméno peněženky",
     "password": "Heslo",
     "loginButton": "Přihlásit",
     "createWalletLink": "Vytvořit novou peněženku",
     "warningWrongUsernameOrPassword": "Špatné <strong>jméno</strong> nebo <strong>heslo</strong>",
-    "dataImportFailed1": "Import dat selhal, pravděpodobně díky špatným přihlašovacím údajům nebo je soubor poškozený",
-    "dataImportFailed2": "Import dat selhal, pravděpodobně díky špatným přihlašovacím údajům",
+    "dataImportFailed": "Import dat selhal, pravděpodobně díky špatným přihlašovacím údajům",
     "fileReplace": "Chcete soubor přepsat?",
     "walletReplace": "Přepsání peněženky?",
     "walletReplaceMsg": "Tato akce přepíše vaši aktuálné peněženku. Jste si jistý?",
@@ -20,7 +19,7 @@
     "no": "Ne"
   },
   "createWallet": {
-    "label": "Arizen: Vytvoření peněženky",
+    "label": "Zero Arizen: Vytvoření peněženky",
     "username": "Jméno",
     "password": "Heslo",
     "oldUsername": "Staré jméno peněženky: ",
@@ -41,8 +40,7 @@
     "warningPasswordAgain": "Hesla musejí splnit následující požadavky",
     "warningPasswordAgainIdentical": "<strong>Musí být identické</strong>",
     "errorCreationFailed": "Vytvoření peněženky selhalo",
-    "errorFailedResponse": "Nezdařilo se",
-    "haveBackup": "Máte předchozí zálohu?"
+    "errorFailedResponse": "Nezdařilo se"
   },
   "notification": {
     "settingsUpdated": "Nastavení aktualizováno",
@@ -68,7 +66,7 @@
     "balance": "Zůstatek",
     "totalBalance": "Celkový zůstatek",
     "lastUpdate": "Čas poslední aktualizace",
-    "showExplorer": "Otevřít v ZEN exploreru",
+    "showExplorer": "Otevřít v ZER exploreru",
     "listOfAddresses": "Seznam adres",
     "showBatchWithdrawDialog": "Hromadný výběr",
     "notLoggedIn": "Nepřihlášen",
@@ -109,25 +107,24 @@
         "insufficientNextSource": "Nedostatečný zůstatek na druhé nebo některé další adrese (Minimum: minimální zůstatek)!",
         "numberOfKeys": "# privátních klíčů a # adres se nerovná!",
         "sumLowerThanFee": "Součet zůstatku na zdrojových adresách je menší než poplatek!",
-        "zenApi": "Zen API není nastaveno v předvolbách aplikace!",
+        "zenApi": "Zer API není nastaveno v předvolbách aplikace!",
         "unknownAddress": "Zdrojová adresa nepatří do této peněženky!",
         "insufficientFundsSourceAddr": "Nedostatečný zůstatek na zdrojové adrese nebo není volné žádné UTXO!",
         "emptyToAddr": "Cílová adresa není zadána",
         "zeroAmount": "Množství není větší než nula",
         "insufficientFunds": "Nedostatečný zůstatek na zdrojové adrese",
         "fromAddressBadLength": "Špatná délka zdrojové adresy!",
-        "fromAddressBadPrefix": "Špatný prefix zdrojové adresy - musí být 'zn'!",
+        "fromAddressBadPrefix": "Špatný prefix zdrojové adresy - musí být 't1'!",
         "toAddressBadLength": "Špatná délka cílové adresy!",
-        "toAddressBadPrefix": "Špatný prefix cílové adresy - musí být 'zn'!",
+        "toAddressBadPrefix": "Špatný prefix cílové adresy - musí být 't1'!",
         "amounNotNumber": "Množství není číslo",
         "amountIsZero": "Množství musí být větší než 0!",
         "feeNotNumber": "Poplatek není číslo!",
         "feeIsNegative": "Poplatek nesmí být záporný!",
         "error": "Chyba",
         "success": "Transakce úspěšně odeslána",
-        "isCoinbaseUTXO": "Vaše adresa obsahuje nově vytěžené ZENy, které jsou také nazývány coinbase unspent transaction outputs (coinbase UTXO). Tyto ZENy musí být nejdříve anonymizovány a deanonimizovány, než je bude možné poslat dále. Prosím importujte privátní klíč zdrojové adresy do plné peněženky, např. Swing. Následně pošlete všechny ZENy z této T adresy na Z adresu a opět zpět na tuto T adresu. Následně budete schopni odeslat vaše ZENy i v Arizen.",
-        "tooManyUTXOs": "Vaše adresa obsahuje příliš mnoho UTXO, není možné odeslat tuto transakci přes API!",
-        "noSourceAddress": "Nebyla vabrána žádná zdrojová adresa!"
+        "isCoinbaseUTXO": "Vaše adresa obsahuje nově vytěžené ZERy, které jsou také nazývány coinbase unspent transaction outputs (coinbase UTXO). Tyto ZERy musí být nejdříve anonymizovány a deanonimizovány, než je bude možné poslat dále. Prosím importujte privátní klíč zdrojové adresy do plné peněženky, např. Swing. Následně pošlete všechny ZERy z této T adresy na Z adresu a opět zpět na tuto T adresu. Následně budete schopni odeslat vaše ZERy i v Zero Arizen.",
+        "tooManyUTXOs": "Vaše adresa obsahuje příliš mnoho UTXO, není možné odeslat tuto transakci přes API!"
       }
     },
     "transactionHistory": {
@@ -154,7 +151,7 @@
       "createButton": "Vytvořit"
     },
     "about": {
-      "label": "O Arizen",
+      "label": "O Zero Arizen",
       "homepage": "Web",
       "version": "Verze",
       "license": "Licence",
@@ -165,35 +162,32 @@
       "limit": "Limit transakcí v historii",
       "items": "položek",
       "language": "Jazyk",
-      "explorerUrl": "Adresa ZEN exploreru",
+      "explorerUrl": "Adresa ZER exploreru",
       "apiUrl": "Adresa API",
       "fiat": "Zůstatek ve FIAT měně",
       "save": "Uložit",
       "enableNotifications": "Notifikace",
       "enableDomainFronting": "Domain fronting",
-      "secureNodeFQDN": "Secure Node FQDN",
-      "sshPrivateKey": "Path to SSH private key file",
-      "sshPassphrase": "Passphrase for SSH private key file (if necessary)",
+      "secureNodeFQDN": "Node FQDN",
       "sshUsername": "SSH jméno",
       "sshPassword": "SSH heslo",
       "sshPort": "SSH port",
-      "secureNodePort": "Secure Node port (viz zen.conf)",
-      "secureNodeUsername": "Secure Node jméno (viz zen.conf)",
-      "secureNodePassword": "Secure Node heslo (viz zen.conf)",
+      "secureNodePort": "Node port (viz zero.conf)",
+      "secureNodeUsername": "Node jméno (viz zero.conf)",
+      "secureNodePassword": "Node heslo (viz zero.conf)",
       "readyTimeout": "Ready Timeout (výchozí hodnota: 10000 ms)",
       "forwardTimeout": "Forward Timeout (výchozí hodnota: 10000 ms)",
       "domainFrontingUrl": "Domain fronting veřejná URL",
       "domainFrontingHost": "Domain fronting privátní host",
       "autoLogOffEnable": "Zapnout automatické odhlášení",
-      "autoLogOffTimeout": "Časový limit automatického odhlášení",
-      "chooseKeyPath": "Procházet"
+      "autoLogOffTimeout": "Časový limit automatického odhlášení"
     },
     "paperWallet": {
       "label": "Papírová peněženka",
       "generateNewWallet": "Vytvořit novou peněženku",
       "name": "Jméno (nepovinné)",
-      "addWalletToArizen": "Přidat vytvořenou peněženku do Arizen",
-      "zenCashWalletLabel": "ZenCash peněženka",
+      "addWalletToArizen": "Přidat vytvořenou peněženku do Zero Arizen",
+      "zenCashWalletLabel": "Zero peněženka",
       "tAddrLabel": "Veřejný klíč - T adresa",
       "privateKeyLabel": "Privátní klíč",
       "namePrint": "Jméno",
@@ -201,7 +195,8 @@
     },
     "batchWithdraw": {
       "label": "Hromadný výběr",
-      "keepAmount": "Minimální zůstatek"
+      "keepAmount": "Minimální zůstatek",
+      "txFee": "Poplatek za transakci"
     },
     "importSinglePrivateKey": {
       "openButtonLabel": "Import privátního klíče",
@@ -226,20 +221,7 @@
       "results": "RPC odpověď ...",
       "status": "Status: ",
       "testFunctionButton": "Otestuj funkci"
-    },
-    "batchSplit": {
-      "label": "Hromadné rozdělení",
-      "splitToAmounts": "Rozdělit do částí",
-      "toAddresses": "Na adresu:",
-      "splitButtonLabel": "Rozdělit",
-      "messages": {
-        "splitToIsZero": "Části do kterých chcete rozdelit musí být větší než nula!",
-        "unknownAddress": "Jedna z Vašich cílových adres není ve Vaší peněžence!",
-        "tooManyInputsOutputs": "Vaše transakce obsahuje příliš mnoho vstupních/výstupních adres, zkuste méně adres!"
-      }
-    },
-    "max": "Max",
-    "showBatchSplitDialog": "Dávkové rozdělení"
+    }
   },
   "menu": {
     "file": "Soubor",
@@ -260,7 +242,7 @@
       "selectAll": "Vybrat vše"
     },
     "helpSubmenu": {
-      "zencash": "ZenCash",
+      "zencash": "Zero",
       "support": "Podpora",
       "arizenManual": "Uživatelská Příručka"
     },
@@ -268,14 +250,14 @@
     "changeWalletPassword": "Změna hesla"
   },
   "warmingMessages": {
-    "userWarningImportFileWithPKs": "Nová adresa(y) a nový privátní klíč(e) budou nyní importovány. Vaše předchozí záloha(y) nebude obsahovat nově importované adresy nebo odpovídající privátní klíče. Prosíme, použijte Arizen funkci pro zálohování a nahraďte stávající zálohu pro Vaši Arizen peněženku. Kliknutím na 'Rozumím' vyjadřujete, že vše plně chápete. Pro další informace prostudujte menu Nápověda Arizen peněženky.",
-    "userWarningExportWalletUnencrypted": "Právě se chystáte exportovat UNENCRYPTED (tj. nezašifrovanou) peněženku (např. Vaše privátní klíče) ve formátu prostého textu. To znamená, že každý, kdo od Vás získá tento text, může kontrolovat Vaše ZENy. Uchovávejte proto tento soubor na bezpečném místě. Kliknutím na 'Rozumím' vyjadřujete, že vše plně chápete. Pro další informace prostudujte menu Nápověda Arizen peněženky.",
-    "userWarningExportWalletEncrypted": "Právě se chystáte exportovat ENCRYPTED (tj. zašifrovanou) peněženku a zároveň budou zašifrovány Váše privátní klíče. To znamená, že pokud chcete mít přístup k Vašim privátním klíčům, musíte znát odpovídající jméno peněženky a heslo. V případě, že je neznáte, nebudete moci kontrolvat své ZENy pomocí privátních klíčů. Kliknutím na 'Rozumím' vyjadřujete, že vše plně chápete. Pro další informace prostudujte menu Nápověda.",
-    "userWarningImportPK": "Bude importována nová adresa s privátním klíčem. Vaše předchozí zálohy nebudou obsahovat nově importovanou adresu nebo odpovídající privátní klíč. Prosíme, použijte Arizen funkci pro zálohování a nahraďte stávající zálohu pro Vaši Arizen peněženku. Kliknutím na 'Rozumím' vyjadřujete, že vše plně chápete. Pro další informace prostudujte menu Nápověda.",
-    "userWarningCreateNewAddress": "Bude vytvořena nová adresa a nový privátní klíč. Vaše předchozí zálohy nebudou obsahovat nově vygenerovanou adresu nebo odpovídající privátní klíč. Prosíme, použijte Arizen funkci pro zálohování a nahraďte stávající zálohu pro Vaši Arizen peněženku. Kliknutím na 'Rozumím' vyjadřujete, že vše plně chápete. Pro další informace prostudujte menu Nápověda.",
+    "userWarningImportFileWithPKs": "Nová adresa(y) a nový privátní klíč(e) budou nyní importovány. Vaše předchozí záloha(y) nebude obsahovat nově importované adresy nebo odpovídající privátní klíče. Prosíme, použijte Zero Arizen funkci pro zálohování a nahraďte stávající zálohu pro Vaši Zero Arizen peněženku. Kliknutím na 'Rozumím' vyjadřujete, že vše plně chápete. Pro další informace prostudujte menu Nápověda Zero Arizen peněženky.",
+    "userWarningExportWalletUnencrypted": "Právě se chystáte exportovat UNENCRYPTED (tj. nezašifrovanou) peněženku (např. Vaše privátní klíče) ve formátu prostého textu. To znamená, že každý, kdo od Vás získá tento text, může kontrolovat Vaše ZERy. Uchovávejte proto tento soubor na bezpečném místě. Kliknutím na 'Rozumím' vyjadřujete, že vše plně chápete. Pro další informace prostudujte menu Nápověda Zero Arizen peněženky.",
+    "userWarningExportWalletEncrypted": "Právě se chystáte exportovat ENCRYPTED (tj. zašifrovanou) peněženku a zároveň budou zašifrovány Váše privátní klíče. To znamená, že pokud chcete mít přístup k Vašim privátním klíčům, musíte znát odpovídající jméno peněženky a heslo. V případě, že je neznáte, nebudete moci kontrolvat své ZERy pomocí privátních klíčů. Kliknutím na 'Rozumím' vyjadřujete, že vše plně chápete. Pro další informace prostudujte menu Nápověda.",
+    "userWarningImportPK": "Bude importována nová adresa s privátním klíčem. Vaše předchozí zálohy nebudou obsahovat nově importovanou adresu nebo odpovídající privátní klíč. Prosíme, použijte Zero Arizen funkci pro zálohování a nahraďte stávající zálohu pro Vaši Zero Arizen peněženku. Kliknutím na 'Rozumím' vyjadřujete, že vše plně chápete. Pro další informace prostudujte menu Nápověda.",
+    "userWarningCreateNewAddress": "Bude vytvořena nová adresa a nový privátní klíč. Vaše předchozí zálohy nebudou obsahovat nově vygenerovanou adresu nebo odpovídající privátní klíč. Prosíme, použijte Zero Arizen funkci pro zálohování a nahraďte stávající zálohu pro Vaši Zero Arizen peněženku. Kliknutím na 'Rozumím' vyjadřujete, že vše plně chápete. Pro další informace prostudujte menu Nápověda.",
     "userWarningIUnderstand": "Souhlasím",
     "cancel": "Zrušit",
-    "userWarningImportPkUserZendRescan": "Zůstatek ZENů na Z adrese, kterou jste importovali, bude viditelný po znovuprohledání blockchainu. Prosíme, spusťte 'zen-cli stop && sleep 10 && zend -rescan' na Vašem secure nodu (linux)."
+    "userWarningImportPkUserZendRescan": "Zůstatek ZERů na Z adrese, kterou jste importovali, bude viditelný po znovuprohledání blockchainu. Prosíme, spusťte 'zcash-cli stop && sleep 10 && zcashd -rescan' na Vašem nodu (linux)."
   },
   "common": {
     "selectAll": "Vybrat vše",
