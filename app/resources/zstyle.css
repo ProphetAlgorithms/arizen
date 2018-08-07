@@ -30,22 +30,22 @@ body, .body {
 
 /* main look and feel */
 :root {
-    --arizen-fg: #115D95;
+    --arizen-fg: #555555;
     --panel-bg: #ffffff;
     --button-bg: #f3f3f3;
-    --button-fg: #115D95;
+    --button-fg: #555555;
     --border-color: #c4cddb;
     --money-negative: #942824;
     --money-positive: #61b884;
     --odd-bg: #f3f3f3;
-    --hover-bg: #69FFBD;
-    --hover-fg: #69FFBD;
+    --hover-bg: #E3E3E3;
+    --hover-fg: #CCC;
 }
 
 /* #1B2F59; */
 
 body {
-    color: #115D95;;
+    color: #000;
     background: #f3f3f3;
     font-family: 'Raleway', 'Lato', sans-serif;
 }
@@ -69,6 +69,7 @@ button:not(:disabled):hover,
 button:not(:disabled):focus {
     /*filter: brightness(90%);*/
     background: var(--hover-bg);
+    color: #555;
 }
 
 button:disabled {
@@ -294,6 +295,28 @@ arizen-dialog > [slot="content"] {
 
 .zenLogo {
     text-align: center;
+}
+
+.zerLogoDiv {
+}
+
+.zerLogoLink {
+    padding-left: 30px;
+    padding-top: 30px;
+    background: url(zer_icon.png);
+    background-size: 30px 30px;    
+}
+
+.headerLeft {
+   margin-bottom: 5px;
+}
+
+.headerCenter {
+   margin-bottom: 5px;
+}
+
+.headerRight {
+   margin-bottom: 5px;
 }
 
 .namePrivateKey {
