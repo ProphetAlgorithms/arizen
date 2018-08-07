@@ -3,14 +3,14 @@
 /*jslint node: true */
 "use strict";
 
-// These function could be integrated in zencash.js lib
-const zencashjs = require("zencashjs");
+// These function could be integrated in zero.js lib
+const zerojs = require("zerojs");
 const bs58check = require("bs58check");
 
 function isWif(pk) {
     let isWif = true;
     try {
-        let pktmp = zencashjs.address.WIFToPrivKey(pk);
+        let pktmp = zerojs.address.WIFToPrivKey(pk);
     } catch (err) {
         isWif = false;
     }
@@ -20,7 +20,7 @@ function isWif(pk) {
 function isPK(pk) {
     let isPK = true;
     try {
-        let pktmp = zencashjs.address.privKeyToPubKey(pk);
+        let pktmp = zerojs.address.privKeyToPubKey(pk);
     } catch (err) {
         isPK = false;
     }
@@ -52,7 +52,7 @@ function isPKorSpendingKey(pk) {
 }
 
 module.exports = {
-    zenextra: {
+    zerextra: {
         isTransaparentAddr: isTransaparentAddr,
         isZeroAddr: isZeroAddr,
         isWif: isWif,
