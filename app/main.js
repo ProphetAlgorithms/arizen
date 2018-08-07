@@ -1601,7 +1601,7 @@ function updateMenuAtLogout() {
 
 function createWindow() {
     updateMenuAtLogout();
-    mainWindow = new BrowserWindow({width: 1010, height: 730, resizable: true, icon: "resources/zer_icon.png"});
+    mainWindow = new BrowserWindow({width: 1015, height: 730, resizable: true, icon: "resources/zer_icon.png"});
 
     // mainWindow.webContents.openDevTools();
 
