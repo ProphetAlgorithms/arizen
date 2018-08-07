@@ -6,12 +6,12 @@
 const {ipcRenderer} = require("electron");
 const Qrcode = require("qrcode");
 const PDFjs = require("jspdf");
-const zencashjs = require("zencashjs");
+const zerojs = require("zerojs");
 
 ipcRenderer.on("export-paper-wallet", (sender, wif, name) => {
-    const privateKey = zencashjs.address.WIFToPrivKey(wif);
-    const pubKey = zencashjs.address.privKeyToPubKey(privateKey, true);
-    const tAddr = zencashjs.address.pubKeyToAddr(pubKey);
+    const privateKey = zerojs.address.WIFToPrivKey(wif);
+    const pubKey = zerojs.address.privKeyToPubKey(privateKey, true);
+    const tAddr = zerojs.address.pubKeyToAddr(pubKey);
 
     function createQrCodeAsync(text) {
         const opts = {
@@ -42,9 +42,9 @@ ipcRenderer.on("export-paper-wallet", (sender, wif, name) => {
         let y = 10;
 
         if (name) {
-            y += centeredText("ZENCASH WALLET " + name, y);
+            y += centeredText("ZERO WALLET " + name, y);
         } else {
-            y += centeredText("ZENCASH WALLET", y);
+            y += centeredText("ZERO WALLET", y);
         }
         y += 10;
 
@@ -62,10 +62,10 @@ ipcRenderer.on("export-paper-wallet", (sender, wif, name) => {
 
         let filename;
         if (name) {
-            filename = `arizen-wallet-${name}.pdf`;
+            filename = `zero-arizen-wallet-${name}.pdf`;
         }
         else {
-            filename = `arizen-wallet-${tAddr}.pdf`;
+            filename = `zero-arizen-wallet-${tAddr}.pdf`;
         }
 
         pdf.save(filename);
