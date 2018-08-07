@@ -400,7 +400,7 @@ function showSettingsDialog() {
         const inputFiatCurrency = dialog.querySelector(".settingsFiatCurrency");
         const inputLanguages = dialog.querySelector(".settingsLanguage");
         const inputNotifications = dialog.querySelector(".enableNotifications");
-        const inputSecureNodeFQDN = dialog.querySelector(".settingsSecureNodeFQDN");
+        //const inputSecureNodeFQDN = dialog.querySelector(".settingsSecureNodeFQDN");
         const inputSecureNodePort = dialog.querySelector(".settingsSecureNodePort");
         const inputSecureNodeUsername = dialog.querySelector(".settingsSecureNodeUsername");
         const inputSecureNodePassword = dialog.querySelector(".settingsSecureNodePassword");
@@ -429,7 +429,7 @@ function showSettingsDialog() {
         //inputDomainFrontingHost.value = settings.domainFrontingHost || "";
         inputFiatCurrency.value = settings.fiatCurrency || "USD";
 
-        inputSecureNodeFQDN.value = settings.secureNodeFQDN;
+        //inputSecureNodeFQDN.value = settings.secureNodeFQDN;
         inputSecureNodePort.value = settings.secureNodePort || 23800;
         inputSecureNodeUsername.value = settings.secureNodeUsername || "";
         inputSecureNodePassword.value = settings.secureNodePassword || "";
@@ -444,15 +444,15 @@ function showSettingsDialog() {
         inputAutoLogOffEnable.checked = settings.autoLogOffEnable;
         inputAutoLogOffTimeout.value = settings.autoLogOffTimeout || 60;
 
-        dialog.querySelector(".chooseKeyPath").addEventListener("click", () => {
-            let inputFakeElement = document.createElement('input');
-            inputFakeElement.addEventListener("change", function(){
-                let fileList = this.files;
-                inputSshPrivateKey.value = fileList[0].path;
-            }, false);
-            inputFakeElement.type = 'file';
-            inputFakeElement.click();
-        });
+        //dialog.querySelector(".chooseKeyPath").addEventListener("click", () => {
+        //    let inputFakeElement = document.createElement('input');
+        //    inputFakeElement.addEventListener("change", function(){
+        //        let fileList = this.files;
+        //        inputSshPrivateKey.value = fileList[0].path;
+        //    }, false);
+        //    inputFakeElement.type = 'file';
+        //    inputFakeElement.click();
+        //});
 
         dialog.querySelector(".settingsSave").addEventListener("click", () => {
             const newSettings = {
@@ -463,7 +463,7 @@ function showSettingsDialog() {
                 lang: inputLanguages[inputLanguages.selectedIndex].value,
                 notifications: inputNotifications.checked ? 1 : 0,
 
-                secureNodeFQDN: inputSecureNodeFQDN.value,
+                //secureNodeFQDN: inputSecureNodeFQDN.value,
                 secureNodePort: inputSecureNodePort.value,
                 secureNodeUsername: inputSecureNodeUsername.value,
                 secureNodePassword: inputSecureNodePassword.value,
