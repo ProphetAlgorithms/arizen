@@ -5,8 +5,8 @@
 
 const {ipcRenderer} = require("electron");
 const {openTunnel} = require("./ssh_tunneling.js");
-const {zenextra} = require("./zenextra.js");
-const zencashjs = require("zencashjs");
+const {zerextra} = require("./zerextra.js");
+const zerojs = require("zerojs");
 const delay = require("delay");
 
 let sshServer;
@@ -159,16 +159,16 @@ async function importPKinSN(pk, address) {
         return {output: "No PK given.", status: "ok"}
     } else {
         let cmd;
-        if (zenextra.isZeroAddr(address)) {
+        if (zerextra.isZeroAddr(address)) {
             cmd = "z_importkey";
-            if (zenextra.isPK(pk)) {
-                pk = zencashjs.zaddress.zSecretKeyToSpendingKey(pk);
+            if (zerextra.isPK(pk)) {
+                pk = zerojs.zaddress.zSecretKeyToSpendingKey(pk);
             }
         }
-        if (zenextra.isTransaparentAddr(address)) {
+        if (zerextra.isTransaparentAddr(address)) {
             cmd = "importprivkey";
-            if (!zenextra.isWif(pk)) {
-                pk = zencashjs.address.privKeyToWIF(pk);
+            if (!zerextra.isWif(pk)) {
+                pk = zerojs.address.privKeyToWIF(pk);
             }
         }
         return await rpcCallResultSync(cmd, [pk, "no"]);
@@ -185,7 +185,7 @@ async function getNewZaddressPK(nameAddress) {
     let zAddress = resp.output;
     let newResp = await rpcCallResultSync("z_exportkey", [zAddress]);  // let spendingKey = newResp.output;
     if (newResp.isOK) {
-        let pkZaddress = zenextra.spendingKeyToSecretKey(newResp.output);
+        let pkZaddress = zerextra.spendingKeyToSecretKey(newResp.output);
         ipcRenderer.send("DB-insert-address", nameAddress, pkZaddress, zAddress);
         return {pk: pkZaddress, addr: zAddress, name: nameAddress}
     }
@@ -197,7 +197,7 @@ async function getNewTaddressPK(nameAddress) {
     let tAddress = resp.output;
     let newResp = await rpcCallResultSync("dumpprivkey", [tAddress]); // let wif = newResp.output;
     if (newResp.isOK) {
-        let pkTaddress = zencashjs.address.WIFToPrivKey(newResp.output);
+        let pkTaddress = zerojs.address.WIFToPrivKey(newResp.output);
         ipcRenderer.send("DB-insert-address", nameAddress, pkTaddress, tAddress);
         return tAddress
     }
@@ -217,7 +217,7 @@ async function getSecureNodeTaddressOrGenerate() {
     let resp = await rpcCallResultSync("listaddresses", []);
     console.log(resp.output);
     let theT;
-    let nameAddress = "My Watch Only Secure Node addr";
+    let nameAddress = "My Watch Only Node addr";
     let pkTaddress = "watchOnlyAddrr";
 
     if (resp.isOK) {
@@ -304,8 +304,8 @@ async function importAllZAddressesFromSNtoArizen() {
                 let resp = await getPKofZAddress(addr);
                 // let spendingKey = resp.output;
                 // spendingKey
-                let pk = zenextra.spendingKeyToSecretKey(resp.output);
-                ipcRenderer.send("import-single-key", "My SN Z address", pk, isT);
+                let pk = zerextra.spendingKeyToSecretKey(resp.output);
+                ipcRenderer.send("import-single-key", "My Node Z address", pk, isT);
             }
         }
     }
@@ -328,8 +328,8 @@ async function importAllZAddressesFromSNtoArizenExcludeExisting() {
                     let resp = await getPKofZAddress(addr);
                     // let spendingKey = resp.output;
                     // spendingKey
-                    let pk = zenextra.spendingKeyToSecretKey(resp.output);
-                    ipcRenderer.send("import-single-key", "My SN Z address", pk, isT);
+                    let pk = zerextra.spendingKeyToSecretKey(resp.output);
+                    ipcRenderer.send("import-single-key", "My Node Z address", pk, isT);
                 }
             }
         }
