@@ -58,7 +58,7 @@ const withdrawButton = document.getElementById("withdrawButton");
 const withdrawStatusTitleNode = document.getElementById("withdrawStatusTitle");
 const withdrawStatusBodyNode = document.getElementById("withdrawStatusBody");
 
-const userWarningCreateNewAddress = "A new address and a private key will be created. Your previous back-ups do not include this newly generated address or the corresponding private key. Please use the backup feature of Arizen to make new backup file and replace your existing Arizen wallet backup. By pressing 'I understand' you declare that you understand this. For further information please refer to the help menu of Arizen.";
+const userWarningCreateNewAddress = "A new address and a private key will be created. Your previous back-ups do not include this newly generated address or the corresponding private key. Please use the backup feature of Zero Arizen to make new backup file and replace your existing Zero Arizen wallet backup. By pressing 'I understand' you declare that you understand this. For further information please refer to the help menu of Zero Arizen.";
 
 const refreshTimeout = 300;
 let refreshTimer;
@@ -203,7 +203,7 @@ function setFiatBalanceText(balanceZen, fiatCurrencySymbol = "") {
 
     const axios = require("axios");
     const BASE_API_URL = "https://api.coinmarketcap.com/v1/ticker";
-    let API_URL = BASE_API_URL + "/zencash/?convert=" + fiatCurrencySymbol;
+    let API_URL = BASE_API_URL + "/zero/?convert=" + fiatCurrencySymbol;
 
     axios.get(API_URL).then(response => {
         let resp = response.data;
@@ -561,7 +561,7 @@ function initDepositView() {
         const h = pdf.internal.pageSize.height;
         pdf.addImage(depositQrcodeImage.src, 'JPEG', 0, 0, w, h);
         const addr = depositToAddrInput.value;
-        pdf.save(`arizen-deposit-${addr}.pdf`);
+        pdf.save(`zero-arizen-deposit-${addr}.pdf`);
     });
 }
 
@@ -597,7 +597,7 @@ function updateDepositQrcode(qrcodeDelay = 0) {
         clearTimeout(depositQrcodeTimer);
     }
     depositQrcodeTimer = setTimeout(() => {
-        const json = {symbol: "zen", tAddr: toAddr, amount: amount};
+        const json = {symbol: "zer", tAddr: toAddr, amount: amount};
         Qrcode.toDataURL(JSON.stringify(json), qrcodeOpts, (err, url) => {
             if (err) {
                 console.log(err);
@@ -633,7 +633,7 @@ async function checkIntermediateSend(tIntermediateAddress, toAddr, amount, feeTw
 
 async function sendPendingTxs() {
     let newPendingTxs = [];
-    let oldPendingTxs = internalInfo.pendingTxs; //[{type:"snT-Z",fromAddress: "zn", toAddress: "zn2", amount:1, fee:0.1}]; //internalInfo.pendingTxs;
+    let oldPendingTxs = internalInfo.pendingTxs; //[{type:"nT-Z",fromAddress: "t1", toAddress: "t1-2", amount:1, fee:0.1}]; //internalInfo.pendingTxs;
     console.log("Preious Txs:");
     console.log(internalInfo);
 
@@ -660,19 +660,19 @@ async function initWithdrawView() {
     withdrawFeeInput.addEventListener("input", validateWithdrawForm);
     withdrawButton.addEventListener("click", async function () {
         const msg = tr("wallet.tabWithdraw.withdrawConfirmQuestion", "Do you really want to send this transaction?");
-        const msgTTZ = tr("wallet.sendTTZ.doNotCloseArizen", "Arizen is Sending ZEN from your T address to an intermediate T and then to the Z address. Please do not close Arizen until the 2nd transaction is sent (opid appears below withdraw).");
+        const msgTTZ = tr("wallet.sendTTZ.doNotCloseArizen", "Zero Arizen is Sending ZER from your T address to an intermediate T and then to the Z address. Please do not close Zero Arizen until the 2nd transaction is sent (opid appears below withdraw).");
         if (confirm(msg)) {
             let fromAddr = withdrawFromAddrInput.value;
             let toAddr = withdrawToAddrInput.value;
             let fee = withdrawFeeInput.value;
             let amount = withdrawAmountInput.value;
-            if (zenextra.isTransaparentAddr(fromAddr) && zenextra.isTransaparentAddr(toAddr)) { // T-T
+            if (zerextra.isTransaparentAddr(fromAddr) && zerextra.isTransaparentAddr(toAddr)) { // T-T
                 ipcRenderer.send("send",
                     withdrawFromAddrInput.value,
                     withdrawToAddrInput.value,
                     withdrawFeeInput.value,
                     withdrawAmountInput.value);
-            } else if (zenextra.isTransaparentAddr(fromAddr) && zenextra.isZeroAddr(toAddr)) { // T - Z
+            } else if (zerextra.isTransaparentAddr(fromAddr) && zerextra.isZeroAddr(toAddr)) { // T - Z
                 if (confirm(msgTTZ)) {
                     // Get intermediate T address from SN or Create
                     let feeOne = fee / 2;
@@ -680,7 +680,7 @@ async function initWithdrawView() {
                     let amountOne = parseFloat(amount) + feeTwo;
                     console.log(amountOne);
                     let tIntermediateAddress = await rpc.getSecureNodeTaddressOrGenerate();
-                    // send from T-Arizen to T-SN, amount, fee/2
+                    // send from T-Arizen to T-N, amount, fee/2
                     if (tIntermediateAddress) {
                         ipcRenderer.send("send",
                             fromAddr,
@@ -796,7 +796,7 @@ function showBatchWithdrawDialog() {
         const bwSettings = deepClone(settings.batchWithdraw) || {
             fromAddrs: [],
             toAddr: "",
-            keepAmount: 42,
+            keepAmount: 0,
             txFee: 0.0001,
         };
         const fromAddrsSet = new Set(bwSettings.fromAddrs);
