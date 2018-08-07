@@ -130,17 +130,17 @@ printed. This created address can by included to your Arizen or not.
 
 ## Wallet
 - [x] Needs connection to the insight and API (you can change servers in settings)
-- [x] Arizen is API wallet
+- [x] Zero Arizen is API wallet
 
 ## Arizen file locations
-- **Linux:** `~/.arizen/wallets/wallet_username.awd`
-- **Windows:** `C:\Users\username\AppData\Roaming\Arizen\wallets\wallet_username.awd`
-- **MacOS:** `/Users/username/Library/Application Support/Arizen/wallet_username.awd`
+- **Linux:** `~/.zero_arizen/wallets/wallet_username.awd`
+- **Windows:** `C:\Users\username\AppData\Roaming\Zero_Arizen\wallets\wallet_username.awd`
+- **MacOS:** `/Users/username/Library/Application Support/Zero_Arizen/wallet_username.awd`
 
 ## Development
 
 ### How to create distribution
-      git clone https://github.com/ZencashOfficial/arizen
+      git clone https://github.com/ProphetAlgorithms/zero-arizen
       git checkout master
       npm install
       npm run dist
