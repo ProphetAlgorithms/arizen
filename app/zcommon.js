@@ -5,12 +5,12 @@
 
 const {DateTime} = require("luxon");
 const {translate} = require("./util.js");
-const zencashjs = require("zencashjs");
+const zerojs = require("zerojs");
 const rpc = require("./rpc.js");
-const {zenextra} = require("./zenextra.js");
+const {zerextra} = require("./zerextra.js");
 
-const userWarningImportPK = "A new address and a private key will be imported. Your previous back-ups do not include the newly imported address or the corresponding private key. Please use the backup feature of Arizen to make new backup file and replace your existing Arizen wallet backup. By pressing 'I understand' you declare that you understand this. For further information please refer to the help menu of Arizen.";
-const userWarningImportPkUserZendRescan = "The balance of the Z address you imported will be visible after you rescan the blockchain. Please run 'zen-cli stop && sleep 8 && zend -rescan' in your secure node (linux).";
+const userWarningImportPK = "A new address and a private key will be imported. Your previous back-ups do not include the newly imported address or the corresponding private key. Please use the backup feature of Zero Arizen to make new backup file and replace your existing Zero Arizen wallet backup. By pressing 'I understand' you declare that you understand this. For further information please refer to the help menu of Zero Arizen.";
+const userWarningImportPkUserZendRescan = "The balance of the Z address you imported will be visible after you rescan the blockchain. Please run 'zcash-cli stop && sleep 8 && zcashd -rescan' in your node (linux).";
 
 let settings = {};
 let internalInfo = {};
@@ -84,9 +84,9 @@ function showNotification(message) {
     if (settings && !settings.notifications) {
         return;
     }
-    const notif = new Notification("Arizen", {
+    const notif = new Notification("Zero Arizen", {
         body: message,
-        icon: "resources/zen_icon.png"
+        icon: "resources/zer_icon.png"
     });
     notif.onclick = () => notif.close();
 }
@@ -425,12 +425,12 @@ function showSettingsDialog() {
         inputFiatCurrency.value = settings.fiatCurrency;
         inputNotifications.checked = settings.notifications;
         inputDomainFrontingEnable.checked = settings.domainFronting || false;
-        inputDomainFrontingUrl.value = settings.domainFrontingUrl || "https://www.google.com";
-        inputDomainFrontingHost.value = settings.domainFrontingHost || "zendhide.appspot.com";
+        inputDomainFrontingUrl.value = settings.domainFrontingUrl || "";
+        inputDomainFrontingHost.value = settings.domainFrontingHost || "";
         inputFiatCurrency.value = settings.fiatCurrency || "USD";
 
         inputSecureNodeFQDN.value = settings.secureNodeFQDN;
-        inputSecureNodePort.value = settings.secureNodePort || 8231;
+        inputSecureNodePort.value = settings.secureNodePort || 23800;
         inputSecureNodeUsername.value = settings.secureNodeUsername || "";
         inputSecureNodePassword.value = settings.secureNodePassword || "";
         inputSshPassphrase.value = settings.sshPassphrase || "";
@@ -514,26 +514,26 @@ function showImportSinglePKDialog() {
                 let importZ = dialog.querySelector(".importTorZgetZ").checked;
                 let checkAddr;
 
-                if ((zenextra.isPKorWif(pk) === true && importT) || (zenextra.isPKorSpendingKey(pk) === true && importZ)) {
+                if ((zerextra.isPKorWif(pk) === true && importT) || (zerextra.isPKorSpendingKey(pk) === true && importZ)) {
                     console.log(name);
                     console.log(pk);
                     if (importT) {
-                        if (zenextra.isWif(pk) === true) {
-                            pk = zencashjs.address.WIFToPrivKey(pk);
+                        if (zerextra.isWif(pk) === true) {
+                            pk = zerojs.address.WIFToPrivKey(pk);
                         }
-                        let pubKey = zencashjs.address.privKeyToPubKey(pk, true);
-                        checkAddr = zencashjs.address.pubKeyToAddr(pubKey);
+                        let pubKey = zerojs.address.privKeyToPubKey(pk, true);
+                        checkAddr = zerojs.address.pubKeyToAddr(pubKey);
                     }
                     if (importZ) {
                         let secretKey = pk;
-                        if (zenextra.isSpendingKey(pk) === true) {
+                        if (zerextra.isSpendingKey(pk) === true) {
                             // pk = spendingKey
-                            secretKey = zenextra.spendingKeyToSecretKey(pk);
+                            secretKey = zerextra.spendingKeyToSecretKey(pk);
                             pk = secretKey;
                         }
-                        let a_pk = zencashjs.zaddress.zSecretKeyToPayingKey(secretKey);
-                        let pk_enc = zencashjs.zaddress.zSecretKeyToTransmissionKey(secretKey);
-                        checkAddr = zencashjs.zaddress.mkZAddress(a_pk, pk_enc);
+                        let a_pk = zerojs.zaddress.zSecretKeyToPayingKey(secretKey);
+                        let pk_enc = zerojs.zaddress.zSecretKeyToTransmissionKey(secretKey);
+                        checkAddr = zerojs.zaddress.mkZAddress(a_pk, pk_enc);
                     }
 
                     let resp = ipcRenderer.sendSync("check-if-address-in-wallet", checkAddr);
