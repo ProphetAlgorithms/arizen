@@ -176,6 +176,10 @@ header button {
     cursor: pointer;
 }
 
+.addrText {
+   color: #555555;
+}
+
 .addrNameLine > :not(:first-child) {
     margin-left: 5px;
 }
