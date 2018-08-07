@@ -1,6 +1,6 @@
 {
   "name": "ZeroArizen",
-  "version": "1.1.9-1",
+  "version": "1.1.9.1",
   "description": "Zero Arizen is light API wallet for Zero with localy stored and encrypted files.",
   "main": "app/main.js",
   "scripts": {
