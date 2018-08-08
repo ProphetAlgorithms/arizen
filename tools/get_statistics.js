@@ -4,9 +4,9 @@ let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 let xhr = new XMLHttpRequest();
 
 // 12299587 - latest v1.1.91
-// let url = "https://api.github.com/repos/ProphetAlgorithms/zero-arizen/releases/12299587";
+// let url = "https://api.github.com/repos/ProphetAlgorithms/zero-arizen/releases/12299909";
 // 12299587 - v1.1.91
-let url = "https://api.github.com/repos/ProphetAlgorithms/zero-arizen/releases/12299587";
+let url = "https://api.github.com/repos/ProphetAlgorithms/zero-arizen/releases/12299909";
 
 xhr.open("GET", url, true);
 xhr.onload = function () {
