@@ -243,7 +243,10 @@ function startZeroNode() {
                                                                                             setZeroDirs();
                                                                                             nodeUserPass();
                                                                                             checkZeroFilesAndStart(); 
-                                                                                     }         
+                                                                                     }
+                                                                                     if (err.signal === 'SIGABRT') {  
+                                                                                            setZeroStatus("/ " + errorMsg[1], 0);                                                       
+                                                                                     }
                                                                     } else if (errorMsg.length === 2) {
                                                                                         if (err.code === 3221225477) {
                                                                                                setZeroStatus("/ Missing network parameters", 0); 
@@ -492,6 +495,10 @@ function walletLoadMsg() {
                                                                  if (errorMsg.includes("error code: -28")) {  
                                                                            setZeroStatus("/ " + errorMsg[3], 0);    
                                                                  }
+                                                                 if (err.signal === 'SIGABRT') {  
+                                                                           setZeroStatus("/ " + errorMsg[1], 0);
+                                                                           clearInterval(checkWallet);
+                                                                 } 
                                                          } else if (errorMsg.length === 3) {
                                                               if (errorMsg[1] === "error: incorrect rpcuser or rpcpassword (authorization failed)") {
                                                                   setZeroStatus("/ Incorrect rpcuser or rpcpassword", 0);
@@ -559,18 +566,23 @@ function stopZeroNode() {
                                                                      app.quit();
                                                                }
                                                              } else if (errorMsg.length === 5) {
-                                                                 if (errorMsg[1].endsWith("-28")) {  
+                                                                    if (errorMsg[1].endsWith("-28")) {  
                                                                            setTimeout(stopNode, 1000);
-                                                                 }         
-                                                               } else if (errorMsg.length === 3) {
-                                                                    if (errorMsg[1].endsWith("not found")) {  
-                                                                             app.quit();
                                                                     }
-                                                                    if (errorMsg[1] === "Error reading configuration file: Missing zero.conf") {
-                                                                             setZeroStatus("/ Missing zero.conf", 0); 
-                                                                             setZeroDirs();
-                                                                             setTimeout(stopNode, 1000);
-                                                                    }         
+                                                                    if (err.signal === 'SIGABRT') {  
+                                                                           setZeroStatus("/ " + errorMsg[1], 0);
+                                                                           clearInterval(stopNode);
+                                                                           app.quit();                                                                 
+                                                                    }
+                                                               } else if (errorMsg.length === 3) {
+                                                                       if (errorMsg[1].endsWith("not found")) {  
+                                                                               app.quit();
+                                                                       }
+                                                                       if (errorMsg[1] === "Error reading configuration file: Missing zero.conf") {
+                                                                               setZeroStatus("/ Missing zero.conf", 0); 
+                                                                               setZeroDirs();
+                                                                               setTimeout(stopNode, 1000);
+                                                                      }         
                                                                  } 
                                                          }    
                                                  });                          
